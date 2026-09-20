@@ -1,0 +1,153 @@
+name: CD
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+    branches: [main]
+
+# Only proceed if CI succeeded.
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy-staging:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    environment: staging
+    env:
+      TF_DIR: infra/envs/staging
+      IMAGE_TAG: ${{ github.event.workflow_run.head_sha }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      - run: npm ci
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_CD_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.15.3"
+
+      # 1. Provision/update infrastructure.
+      - name: Terraform apply (staging)
+        working-directory: ${{ env.TF_DIR }}
+        env:
+          TF_VAR_app_image: "${{ steps.image.outputs.uri || format('{0}.dkr.ecr.{1}.amazonaws.com/tenantforge-staging:{2}', secrets.AWS_ACCOUNT_ID, vars.AWS_REGION, env.IMAGE_TAG) }}"
+          TF_VAR_jwt_signing_secret: ${{ secrets.JWT_SIGNING_SECRET }}
+          TF_VAR_db_master_password: ${{ secrets.DB_MASTER_PASSWORD }}
+          TF_VAR_app_db_password: ${{ secrets.APP_DB_PASSWORD }}
+        run: |
+          terraform init \
+            -backend-config="bucket=${{ vars.TF_STATE_BUCKET }}" \
+            -backend-config="dynamodb_table=${{ vars.TF_LOCK_TABLE }}" \
+            -backend-config="region=${{ vars.AWS_REGION }}"
+          terraform apply -auto-approve
+
+      # 2. Safety net BEFORE migrating: snapshot RDS + record current task definition (R18.2/R18.5).
+      - name: Pre-migration safeguards
+        run: |
+          DB_ID=$(terraform -chdir=${{ env.TF_DIR }} output -raw rds_instance_id 2>/dev/null || echo "tenantforge-staging-pg")
+          SNAP="premigrate-${IMAGE_TAG:0:8}-$(date +%s)"
+          aws rds create-db-snapshot --db-instance-identifier "$DB_ID" --db-snapshot-identifier "$SNAP"
+          aws rds wait db-snapshot-available --db-snapshot-identifier "$SNAP"
+          echo "DB_SNAPSHOT=$SNAP" >> "$GITHUB_ENV"
+          CLUSTER=$(terraform -chdir=${{ env.TF_DIR }} output -raw ecs_cluster)
+          SERVICE=$(terraform -chdir=${{ env.TF_DIR }} output -raw ecs_service)
+          PREV_TD=$(aws ecs describe-services --cluster "$CLUSTER" --services "$SERVICE" \
+            --query 'services[0].taskDefinition' --output text)
+          echo "PREV_TASK_DEF=$PREV_TD" >> "$GITHUB_ENV"
+          echo "ECS_CLUSTER=$CLUSTER" >> "$GITHUB_ENV"
+          echo "ECS_SERVICE=$SERVICE" >> "$GITHUB_ENV"
+
+      # 3. Run migrations as the migrator role (never the app role, R18.2).
+      - name: Run DB migrations
+        env:
+          MIGRATION_DATABASE_URL: ${{ secrets.STAGING_MIGRATION_DATABASE_URL }}
+          APP_DB_ROLE: tenantforge_app
+          APP_DB_PASSWORD: ${{ secrets.APP_DB_PASSWORD }}
+        run: npm run db:migrate
+
+      # 4. Deploy: terraform apply already updated the task def to the new image; force a new deployment.
+      - name: ECS deploy (force new deployment)
+        run: |
+          aws ecs update-service --cluster "$ECS_CLUSTER" --service "$ECS_SERVICE" \
+            --force-new-deployment
+          aws ecs wait services-stable --cluster "$ECS_CLUSTER" --services "$ECS_SERVICE"
+
+      # 5. Smoke test the deployed ALB endpoint.
+      - name: Smoke test
+        id: smoke
+        run: |
+          URL="http://$(terraform -chdir=${{ env.TF_DIR }} output -raw alb_dns_name)"
+          npm run smoke -- "$URL"
+
+      # 6. Rollback on smoke failure: restore the previous task definition (R18.5).
+      #    (DB snapshot $DB_SNAPSHOT is available for manual point-in-time restore if a
+      #    migration caused data issues — documented in the runbook.)
+      - name: Rollback on failure
+        if: failure() && steps.smoke.conclusion == 'failure'
+        run: |
+          echo "Smoke failed — rolling ECS back to $PREV_TASK_DEF"
+          aws ecs update-service --cluster "$ECS_CLUSTER" --service "$ECS_SERVICE" \
+            --task-definition "$PREV_TASK_DEF" --force-new-deployment
+          aws ecs wait services-stable --cluster "$ECS_CLUSTER" --services "$ECS_SERVICE"
+          echo "::error::Deploy rolled back. DB snapshot for manual restore: $DB_SNAPSHOT"
+          exit 1
+
+  # Prod deploy is gated behind a protected environment (manual approval).
+  deploy-prod:
+    needs: deploy-staging
+    runs-on: ubuntu-latest
+    environment: production # requires reviewers in GitHub environment protection rules (R18.4)
+    env:
+      TF_DIR: infra/envs/prod
+      IMAGE_TAG: ${{ github.event.workflow_run.head_sha }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      - run: npm ci
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_CD_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.15.3"
+      - name: Terraform apply (prod)
+        working-directory: ${{ env.TF_DIR }}
+        env:
+          TF_VAR_jwt_signing_secret: ${{ secrets.JWT_SIGNING_SECRET }}
+          TF_VAR_db_master_password: ${{ secrets.DB_MASTER_PASSWORD }}
+          TF_VAR_app_db_password: ${{ secrets.APP_DB_PASSWORD }}
+        run: |
+          terraform init \
+            -backend-config="bucket=${{ vars.TF_STATE_BUCKET }}" \
+            -backend-config="dynamodb_table=${{ vars.TF_LOCK_TABLE }}" \
+            -backend-config="region=${{ vars.AWS_REGION }}"
+          terraform apply -auto-approve
+      - name: Run DB migrations (prod)
+        env:
+          MIGRATION_DATABASE_URL: ${{ secrets.PROD_MIGRATION_DATABASE_URL }}
+          APP_DB_ROLE: tenantforge_app
+          APP_DB_PASSWORD: ${{ secrets.APP_DB_PASSWORD }}
+        run: npm run db:migrate
+      - name: ECS deploy + smoke (prod)
+        run: |
+          CLUSTER=$(terraform -chdir=${{ env.TF_DIR }} output -raw ecs_cluster)
+          SERVICE=$(terraform -chdir=${{ env.TF_DIR }} output -raw ecs_service)
+          aws ecs update-service --cluster "$CLUSTER" --service "$SERVICE" --force-new-deployment
+          aws ecs wait services-stable --cluster "$CLUSTER" --services "$SERVICE"
+          npm run smoke -- "http://$(terraform -chdir=${{ env.TF_DIR }} output -raw alb_dns_name)"
