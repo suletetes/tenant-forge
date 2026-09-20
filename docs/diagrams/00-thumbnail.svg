@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630"
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1680" height="882"
   font-family="'Segoe UI',system-ui,sans-serif">
 <defs>
   <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
@@ -37,7 +37,7 @@
 </defs>
 
 <!-- background -->
-<rect width="1200" height="630" fill="url(#bg)"/>
+<rect width="1680" height="882" fill="url(#bg)"/>
 <!-- ambient glow orbs -->
 <ellipse cx="360" cy="252" rx="340" ry="280" fill="url(#orb1)"/>
 <ellipse cx="900" cy="378" rx="310" ry="260" fill="url(#orb2)"/>
