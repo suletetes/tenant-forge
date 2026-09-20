@@ -1,0 +1,60 @@
+{
+  "name": "tenantforge",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Multi-tenant SaaS API platform with Postgres RLS tenant isolation, Stripe billing, and per-tenant rate limiting.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "esbuild src/server.ts --bundle --platform=node --format=esm --packages=external --outfile=dist/server.js",
+    "start": "node dist/server.js",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write \"**/*.{ts,json,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,json,md}\"",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:isolation": "vitest run tests/integration/isolation.test.ts",
+    "rls-lint": "tsx src/scripts/rls-lint.ts",
+    "openapi:gen": "tsx src/scripts/openapi-gen.ts",
+    "smoke": "tsx src/scripts/smoke.ts",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "tsx src/db/migrate.ts",
+    "db:studio": "drizzle-kit studio"
+  },
+  "dependencies": {
+    "@fastify/swagger": "^9.4.2",
+    "@fastify/swagger-ui": "^5.2.1",
+    "argon2": "^0.41.1",
+    "drizzle-orm": "^0.38.3",
+    "fastify": "^5.2.1",
+    "fastify-plugin": "^5.0.1",
+    "fastify-type-provider-zod": "^4.0.2",
+    "ioredis": "^5.4.2",
+    "jose": "^5.9.6",
+    "pg": "^8.13.1",
+    "postgres": "^3.4.5",
+    "stripe": "^17.5.0",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "@types/pg": "^8.11.10",
+    "@testcontainers/postgresql": "^10.16.0",
+    "@testcontainers/redis": "^10.16.0",
+    "@typescript-eslint/eslint-plugin": "^8.19.1",
+    "@typescript-eslint/parser": "^8.19.1",
+    "drizzle-kit": "^0.30.1",
+    "esbuild": "^0.24.2",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.4.2",
+    "testcontainers": "^10.16.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3",
+    "vitest": "^2.1.8"
+  }
+}
