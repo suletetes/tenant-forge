@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TenantForge — Admin</title>
+    <!-- Thin demo SPA (Task 22): React + Babel via CDN, no bundler. Deployable to S3 + CloudFront.
+         Demonstrates signup → login → projects CRUD, shows X-RateLimit headers and plan state. -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+      :root { color-scheme: light dark; }
+      * { box-sizing: border-box; }
+      body { font: 15px/1.5 system-ui, sans-serif; margin: 0; background: #0f1117; color: #e6e8ee; }
+      .wrap { max-width: 860px; margin: 0 auto; padding: 24px; }
+      h1 { font-size: 20px; margin: 0 0 4px; }
+      .muted { color: #8b90a0; font-size: 13px; }
+      .card { background: #171a23; border: 1px solid #262a36; border-radius: 10px; padding: 16px; margin: 16px 0; }
+      label { display: block; font-size: 12px; color: #8b90a0; margin: 8px 0 2px; }
+      input { width: 100%; padding: 8px 10px; border: 1px solid #2c3140; border-radius: 6px; background: #0f1117; color: #e6e8ee; }
+      button { padding: 8px 14px; border: 0; border-radius: 6px; background: #3b6ef5; color: #fff; cursor: pointer; font-weight: 600; }
+      button.secondary { background: #2c3140; }
+      button:disabled { opacity: .5; cursor: default; }
+      .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+      table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+      th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid #262a36; font-size: 13px; }
+      .pill { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11px; background: #223; border: 1px solid #345; }
+      .err { color: #ff7a7a; font-size: 13px; }
+      .rl { font-family: ui-monospace, monospace; font-size: 12px; color: #9fd0a0; }
+      code { background: #0f1117; padding: 1px 5px; border-radius: 4px; }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel" data-type="module">
+      const { useState, useEffect, useCallback } = React;
+
+      // API base URL: ?api=... query param, else localStorage, else localhost.
+      const params = new URLSearchParams(location.search);
+      const DEFAULT_API =
+        params.get("api") || localStorage.getItem("tf_api") || "http://localhost:3000";
+
+      function useApi(base, token) {
+        // Wraps fetch to capture rate-limit headers + normalize the error envelope.
+        return useCallback(
+          async (method, path, body) => {
+            const res = await fetch(base.replace(/\/$/, "") + path, {
+              method,
+              headers: {
+                "Content-Type": "application/json",
+                ...(token ? { Authorization: "Bearer " + token } : {}),
+              },
+              ...(body ? { body: JSON.stringify(body) } : {}),
+            });
+            const rl = {
+              limit: res.headers.get("X-RateLimit-Limit"),
+              remaining: res.headers.get("X-RateLimit-Remaining"),
+              reset: res.headers.get("X-RateLimit-Reset"),
+              retryAfter: res.headers.get("Retry-After"),
+            };
+            let data = null;
+            try { data = await res.json(); } catch { /* 204 etc. */ }
+            return { status: res.status, ok: res.ok, data, rl };
+          },
+          [base, token],
+        );
+      }
+
+      function RateLimit({ rl }) {
+        if (!rl || !rl.limit) return null;
+        return (
+          <div className="rl">
+            RateLimit: {rl.remaining}/{rl.limit} remaining · resets in {rl.reset}s
+            {rl.retryAfter ? ` · Retry-After ${rl.retryAfter}s` : ""}
+          </div>
+        );
+      }
+
+      function App() {
+        const [api, setApi] = useState(DEFAULT_API);
+        const [token, setToken] = useState(sessionStorage.getItem("tf_token") || "");
+        const [email, setEmail] = useState("");
+        const [password, setPassword] = useState("");
+        const [org, setOrg] = useState("");
+        const [projects, setProjects] = useState([]);
+        const [name, setName] = useState("");
+        const [rl, setRl] = useState(null);
+        const [err, setErr] = useState("");
+        const call = useApi(api, token);
+
+        useEffect(() => { localStorage.setItem("tf_api", api); }, [api]);
+        useEffect(() => {
+          if (token) sessionStorage.setItem("tf_token", token);
+          else sessionStorage.removeItem("tf_token");
+        }, [token]);
+
+        const guard = async (fn) => {
+          setErr("");
+          try { return await fn(); }
+          catch (e) { setErr(String(e.message || e)); }
+        };
+
+        const signup = () =>
+          guard(async () => {
+            const r = await call("POST", "/v1/auth/signup", {
+              organizationName: org, email, password,
+            });
+            if (!r.ok) throw new Error(r.data?.error?.message || "signup failed");
+            await login();
+          });
+
+        const login = () =>
+          guard(async () => {
+            const r = await call("POST", "/v1/auth/login", { email, password });
+            if (!r.ok) throw new Error(r.data?.error?.message || "login failed");
+            setToken(r.data.access_token);
+          });
+
+        const logout = () => { setToken(""); setProjects([]); setRl(null); };
+
+        const loadProjects = useCallback(() =>
+          guard(async () => {
+            const r = await call("GET", "/v1/projects");
+            setRl(r.rl);
+            if (r.status === 401) { logout(); return; }
+            if (!r.ok) throw new Error(r.data?.error?.message || "load failed");
+            setProjects(r.data.data || []);
+          }), [call]);
+
+        useEffect(() => { if (token) loadProjects(); }, [token, loadProjects]);
+
+        const createProject = () =>
+          guard(async () => {
+            const r = await call("POST", "/v1/projects", { name });
+            setRl(r.rl);
+            if (!r.ok) throw new Error(r.data?.error?.code || "create failed");
+            setName("");
+            await loadProjects();
+          });
+
+        const del = (id) =>
+          guard(async () => {
+            const r = await call("DELETE", "/v1/projects/" + id);
+            setRl(r.rl);
+            await loadProjects();
+          });
+
+        return (
+          <div className="wrap">
+            <h1>TenantForge — Admin</h1>
+            <div className="muted">Thin demo client. Multi-tenant SaaS API: RLS isolation, per-tenant rate limiting, Stripe billing.</div>
+
+            <div className="card">
+              <label>API base URL</label>
+              <input value={api} onChange={(e) => setApi(e.target.value)} />
+            </div>
+
+            {err && <div className="card err">Error: {err}</div>}
+
+            {!token ? (
+              <div className="card">
+                <label>Organization name (signup only)</label>
+                <input value={org} onChange={(e) => setOrg(e.target.value)} placeholder="Acme Inc" />
+                <label>Email</label>
+                <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="owner@acme.test" />
+                <label>Password</label>
+                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                <div className="row" style={{ marginTop: 12 }}>
+                  <button onClick={login} disabled={!email || !password}>Log in</button>
+                  <button className="secondary" onClick={signup} disabled={!org || !email || !password}>
+                    Sign up
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <>
+                <div className="card">
+                  <div className="row" style={{ justifyContent: "space-between" }}>
+                    <span className="pill">authenticated</span>
+                    <button className="secondary" onClick={logout}>Log out</button>
+                  </div>
+                  <RateLimit rl={rl} />
+                </div>
+
+                <div className="card">
+                  <div className="row">
+                    <input value={name} onChange={(e) => setName(e.target.value)} placeholder="New project name" />
+                    <button onClick={createProject} disabled={!name}>Create</button>
+                    <button className="secondary" onClick={loadProjects}>Refresh</button>
+                  </div>
+                  <table>
+                    <thead><tr><th>Name</th><th>Status</th><th>Created</th><th></th></tr></thead>
+                    <tbody>
+                      {projects.map((p) => (
+                        <tr key={p.id}>
+                          <td>{p.name}</td>
+                          <td>{p.status}</td>
+                          <td className="muted">{new Date(p.created_at).toLocaleString()}</td>
+                          <td><button className="secondary" onClick={() => del(p.id)}>Delete</button></td>
+                        </tr>
+                      ))}
+                      {projects.length === 0 && (
+                        <tr><td colSpan="4" className="muted">No projects yet.</td></tr>
+                      )}
+                    </tbody>
+                  </table>
+                  <div className="muted" style={{ marginTop: 8 }}>
+                    Tip: click Refresh rapidly to watch <code>X-RateLimit-Remaining</code> drop and eventually hit <code>429</code>.
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+        );
+      }
+
+      ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+    </script>
+  </body>
+</html>
