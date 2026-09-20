@@ -1,0 +1,8 @@
+# Copy to dev.auto.tfvars (gitignored) or pass via -var-file in CI.
+# Secrets in CI come from GitHub Actions secrets, NOT this file.
+region             = "eu-west-1"
+env                = "dev"
+# app_image is set by CI to the freshly pushed ECR tag.
+jwt_signing_secret = "CHANGE_ME_min_32_bytes_from_secrets_manager"
+db_master_password = "CHANGE_ME_migrator_password"
+app_db_password    = "CHANGE_ME_app_role_password"
