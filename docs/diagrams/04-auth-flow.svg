@@ -1,0 +1,270 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1160 860" width="1160" height="860" font-family="'Segoe UI', system-ui, sans-serif">
+  <defs>
+    <linearGradient id="bg4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0f1117"/><stop offset="1" stop-color="#111827"/></linearGradient>
+    <filter id="sh4"><feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000" flood-opacity="0.5"/></filter>
+    <marker id="a4" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#475569"/></marker>
+    <marker id="a4g" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#22c55e"/></marker>
+    <marker id="a4r" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#f87171"/></marker>
+    <marker id="a4b" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#60a5fa"/></marker>
+    <marker id="a4y" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#fbbf24"/></marker>
+  </defs>
+
+  <rect width="1160" height="860" fill="url(#bg4)"/>
+
+  <!-- Title -->
+  <text x="580" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#f1f5f9">TenantForge — Auth Flow</text>
+  <text x="580" y="56" text-anchor="middle" font-size="12" fill="#64748b">6 auth paths  ·  JWT (HS256)  ·  Refresh token rotation  ·  API keys  ·  RBAC</text>
+
+  <!-- Column headers -->
+  <text x="90" y="80" text-anchor="middle" font-size="10" font-weight="600" fill="#94a3b8">CLIENT</text>
+  <text x="310" y="80" text-anchor="middle" font-size="10" font-weight="600" fill="#94a3b8">ROUTE  (Fastify)</text>
+  <text x="580" y="80" text-anchor="middle" font-size="10" font-weight="600" fill="#94a3b8">SERVICE LAYER</text>
+  <text x="850" y="80" text-anchor="middle" font-size="10" font-weight="600" fill="#94a3b8">DATABASE  (ownerPool)</text>
+  <text x="1080" y="80" text-anchor="middle" font-size="10" font-weight="600" fill="#94a3b8">RESPONSE</text>
+
+  <!-- Vertical lane dividers -->
+  <line x1="185" y1="86" x2="185" y2="840" stroke="#1e293b" stroke-width="1"/>
+  <line x1="445" y1="86" x2="445" y2="840" stroke="#1e293b" stroke-width="1"/>
+  <line x1="730" y1="86" x2="730" y2="840" stroke="#1e293b" stroke-width="1"/>
+  <line x1="980" y1="86" x2="980" y2="840" stroke="#1e293b" stroke-width="1"/>
+
+  <!-- ─────────────────────────────── SIGNUP ─────────────────────────────── -->
+  <rect x="10" y="90" width="1140" height="8" rx="0" fill="#1e2433"/>
+  <text x="14" y="104" font-size="9" font-weight="700" fill="#a78bfa" letter-spacing="1">A. SIGNUP</text>
+
+  <!-- boxes -->
+  <rect x="14" y="110" width="152" height="48" rx="6" fill="#1a1d2e" stroke="#334155" stroke-width="1"/>
+  <text x="90" y="130" text-anchor="middle" font-size="9" fill="#94a3b8">POST /v1/auth/signup</text>
+  <text x="90" y="145" text-anchor="middle" font-size="8.5" fill="#64748b">{ name, email, password }</text>
+
+  <rect x="200" y="110" width="230" height="48" rx="6" fill="#1a2535" stroke="#8b5cf6" stroke-width="1.5" filter="url(#sh4)"/>
+  <text x="315" y="130" text-anchor="middle" font-size="9" font-weight="600" fill="#a78bfa">auth.routes / signup</text>
+  <text x="315" y="145" text-anchor="middle" font-size="8.5" fill="#64748b">IP general rate limit applied</text>
+
+  <rect x="455" y="110" width="260" height="48" rx="6" fill="#1a2535" stroke="#8b5cf6" stroke-width="1.5" filter="url(#sh4)"/>
+  <text x="585" y="128" text-anchor="middle" font-size="9" font-weight="600" fill="#a78bfa">signup.service</text>
+  <text x="585" y="143" text-anchor="middle" font-size="8" fill="#64748b">1 transaction: INSERT orgs → set_config</text>
+  <text x="585" y="155" text-anchor="middle" font-size="8" fill="#64748b">→ INSERT users(role=owner) → INSERT audit_log</text>
+
+  <rect x="740" y="110" width="225" height="48" rx="6" fill="#0c1a2e" stroke="#1e3a5f" stroke-width="1"/>
+  <text x="852" y="130" text-anchor="middle" font-size="8.5" fill="#94a3b8">organizations  ·  users  ·  audit_log</text>
+  <text x="852" y="145" text-anchor="middle" font-size="8" fill="#64748b">23505 on email → 409 Conflict</text>
+
+  <rect x="990" y="110" width="156" height="48" rx="6" fill="#0d1a10" stroke="#166534" stroke-width="1"/>
+  <text x="1068" y="130" text-anchor="middle" font-size="9" fill="#4ade80">201 { tenant_id,</text>
+  <text x="1068" y="144" text-anchor="middle" font-size="9" fill="#4ade80">      user_id }</text>
+
+  <line x1="166" y1="134" x2="200" y2="134" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#a4)"/>
+  <line x1="430" y1="134" x2="455" y2="134" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#a4)"/>
+  <line x1="715" y1="134" x2="740" y2="134" stroke="#64748b" stroke-width="1.5" marker-end="url(#a4)"/>
+  <line x1="965" y1="134" x2="990" y2="134" stroke="#22c55e" stroke-width="1.5" marker-end="url(#a4g)"/>
+
+  <!-- ─────────────────────────────── LOGIN ─────────────────────────────── -->
+  <rect x="10" y="172" width="1140" height="8" rx="0" fill="#1e2433"/>
+  <text x="14" y="186" font-size="9" font-weight="700" fill="#38bdf8" letter-spacing="1">B. LOGIN</text>
+
+  <rect x="14" y="192" width="152" height="48" rx="6" fill="#1a1d2e" stroke="#334155" stroke-width="1"/>
+  <text x="90" y="212" text-anchor="middle" font-size="9" fill="#94a3b8">POST /v1/auth/login</text>
+  <text x="90" y="226" text-anchor="middle" font-size="8.5" fill="#64748b">{ email, password }</text>
+
+  <rect x="200" y="192" width="230" height="48" rx="6" fill="#1a2535" stroke="#0ea5e9" stroke-width="1.5" filter="url(#sh4)"/>
+  <text x="315" y="212" text-anchor="middle" font-size="9" font-weight="600" fill="#38bdf8">auth.routes / login</text>
+  <text x="315" y="226" text-anchor="middle" font-size="8.5" fill="#64748b">IP credential rate limit</text>
+
+  <rect x="455" y="192" width="260" height="62" rx="6" fill="#1a2535" stroke="#0ea5e9" stroke-width="1.5" filter="url(#sh4)"/>
+  <text x="585" y="212" text-anchor="middle" font-size="9" font-weight="600" fill="#38bdf8">login.service</text>
+  <text x="585" y="226" text-anchor="middle" font-size="8" fill="#64748b">lookup user by email → bcrypt.verify()</text>
+  <text x="585" y="240" text-anchor="middle" font-size="8" fill="#64748b">dummyPasswordHash() if not found (timing eq.)</text>
+  <text x="585" y="254" text-anchor="middle" font-size="8" fill="#64748b">sign access JWT · gen 32-byte refresh token</text>
+
+  <rect x="740" y="192" width="225" height="62" rx="6" fill="#0c1a2e" stroke="#1e3a5f" stroke-width="1"/>
+  <text x="852" y="212" text-anchor="middle" font-size="8.5" fill="#94a3b8">SELECT users WHERE email=$1</text>
+  <text x="852" y="226" text-anchor="middle" font-size="8.5" fill="#94a3b8">INSERT refresh_tokens (hashed SHA-256)</text>
+  <text x="852" y="240" text-anchor="middle" font-size="8.5" fill="#94a3b8">INSERT audit_log 'auth.login'</text>
+
+  <rect x="990" y="192" width="156" height="62" rx="6" fill="#0d1a10" stroke="#166534" stroke-width="1"/>
+  <text x="1068" y="212" text-anchor="middle" font-size="8.5" fill="#4ade80">200 {</text>
+  <text x="1068" y="226" text-anchor="middle" font-size="8.5" fill="#4ade80">  access_token (JWT)</text>
+  <text x="1068" y="240" text-anchor="middle" font-size="8.5" fill="#4ade80">  refresh_token</text>
+  <text x="1068" y="252" text-anchor="middle" font-size="8.5" fill="#4ade80">}</text>
+
+  <line x1="166" y1="216" x2="200" y2="216" stroke="#0ea5e9" stroke-width="1.5" marker-end="url(#a4)"/>
+  <line x1="430" y1="216" x2="455" y2="216" stroke="#0ea5e9" stroke-width="1.5" marker-end="url(#a4)"/>
+  <line x1="715" y1="222" x2="740" y2="222" stroke="#64748b" stroke-width="1.5" marker-end="url(#a4)"/>
+  <line x1="965" y1="216" x2="990" y2="216" stroke="#22c55e" stroke-width="1.5" marker-end="url(#a4g)"/>
+
+  <!-- ─────────────────────────────── REFRESH ─────────────────────────────── -->
+  <rect x="10" y="268" width="1140" height="8" rx="0" fill="#1e2433"/>
+  <text x="14" y="282" font-size="9" font-weight="700" fill="#fbbf24" letter-spacing="1">C. TOKEN REFRESH  (family rotation + reuse detection)</text>
+
+  <rect x="14" y="288" width="152" height="48" rx="6" fill="#1a1d2e" stroke="#334155" stroke-width="1"/>
+  <text x="90" y="308" text-anchor="middle" font-size="9" fill="#94a3b8">POST /v1/auth/refresh</text>
+  <text x="90" y="323" text-anchor="middle" font-size="8.5" fill="#64748b">{ refresh_token }</text>
+
+  <rect x="200" y="288" width="230" height="48" rx="6" fill="#1a2535" stroke="#f59e0b" stroke-width="1.5" filter="url(#sh4)"/>
+  <text x="315" y="308" text-anchor="middle" font-size="9" font-weight="600" fill="#fbbf24">auth.routes / refresh</text>
+  <text x="315" y="323" text-anchor="middle" font-size="8.5" fill="#64748b">IP credential rate limit</text>
+
+  <rect x="455" y="288" width="260" height="76" rx="6" fill="#1a2535" stroke="#f59e0b" stroke-width="1.5" filter="url(#sh4)"/>
+  <text x="585" y="308" text-anchor="middle" font-size="9" font-weight="600" fill="#fbbf24">refresh.service (rotateRefreshToken)</text>
+  <text x="585" y="323" text-anchor="middle" font-size="8" fill="#64748b">lookup by SHA-256(token) · check expiry</text>
+  <text x="585" y="337" text-anchor="middle" font-size="8" fill="#f87171">reuse: used_at set &amp; &gt;10s → revoke family + 401</text>
+  <text x="585" y="351" text-anchor="middle" font-size="8" fill="#64748b">mark old used_at · insert new (same family_id)</text>
+
+  <rect x="740" y="288" width="225" height="76" rx="6" fill="#0c1a2e" stroke="#1e3a5f" stroke-width="1"/>
+  <text x="852" y="308" text-anchor="middle" font-size="8.5" fill="#94a3b8">SELECT refresh_tokens WHERE hash=$1</text>
+  <text x="852" y="322" text-anchor="middle" font-size="8.5" fill="#94a3b8">UPDATE (used_at) + INSERT new token</text>
+  <text x="852" y="336" text-anchor="middle" font-size="8.5" fill="#f87171">on reuse: UPDATE family SET revoked_at</text>
+  <text x="852" y="350" text-anchor="middle" font-size="8.5" fill="#94a3b8">INSERT audit_log</text>
+
+  <rect x="990" y="288" width="156" height="76" rx="6" fill="#0d1a10" stroke="#166534" stroke-width="1"/>
+  <text x="1068" y="310" text-anchor="middle" font-size="8.5" fill="#4ade80">200 {</text>
+  <text x="1068" y="324" text-anchor="middle" font-size="8.5" fill="#4ade80">  access_token</text>
+  <text x="1068" y="338" text-anchor="middle" font-size="8.5" fill="#4ade80">  refresh_token</text>
+  <text x="1068" y="352" text-anchor="middle" font-size="8.5" fill="#f87171">401 on reuse</text>
+
+  <line x1="166" y1="312" x2="200" y2="312" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#a4)"/>
+  <line x1="430" y1="312" x2="455" y2="312" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#a4)"/>
+  <line x1="715" y1="320" x2="740" y2="320" stroke="#64748b" stroke-width="1.5" marker-end="url(#a4)"/>
+  <line x1="965" y1="320" x2="990" y2="320" stroke="#22c55e" stroke-width="1.5" marker-end="url(#a4g)"/>
+
+  <!-- ─────────────────────────────── PASSWORD RESET ─────────────────────────────── -->
+  <rect x="10" y="378" width="1140" height="8" rx="0" fill="#1e2433"/>
+  <text x="14" y="392" font-size="9" font-weight="700" fill="#f87171" letter-spacing="1">D. PASSWORD RESET  (2-step · no enumeration)</text>
+
+  <rect x="14" y="398" width="152" height="62" rx="6" fill="#1a1d2e" stroke="#334155" stroke-width="1"/>
+  <text x="90" y="415" text-anchor="middle" font-size="8.5" fill="#94a3b8">POST .../request</text>
+  <text x="90" y="428" text-anchor="middle" font-size="8" fill="#64748b">{ email }</text>
+  <text x="90" y="445" text-anchor="middle" font-size="8.5" fill="#94a3b8">POST .../confirm</text>
+  <text x="90" y="458" text-anchor="middle" font-size="8" fill="#64748b">{ token, new_password }</text>
+
+  <rect x="200" y="398" width="230" height="62" rx="6" fill="#1a2535" stroke="#dc2626" stroke-width="1.5" filter="url(#sh4)"/>
+  <text x="315" y="418" text-anchor="middle" font-size="9" font-weight="600" fill="#f87171">auth.routes</text>
+  <text x="315" y="432" text-anchor="middle" font-size="8" fill="#64748b">IP credential rate limit</text>
+  <text x="315" y="448" text-anchor="middle" font-size="8" fill="#64748b">both steps</text>
+
+  <rect x="455" y="398" width="260" height="76" rx="6" fill="#1a2535" stroke="#dc2626" stroke-width="1.5" filter="url(#sh4)"/>
+  <text x="585" y="418" text-anchor="middle" font-size="9" font-weight="600" fill="#f87171">password-reset.service</text>
+  <text x="585" y="433" text-anchor="middle" font-size="8" fill="#64748b">request: always 202 · if user found: INSERT</text>
+  <text x="585" y="447" text-anchor="middle" font-size="8" fill="#64748b">auth_tokens(type=password_reset, 1h TTL)</text>
+  <text x="585" y="461" text-anchor="middle" font-size="8" fill="#64748b">confirm: hash lookup · bcrypt new pw</text>
+  <text x="585" y="474" text-anchor="middle" font-size="8" fill="#64748b">UPDATE password_hash · revoke all refresh_tokens</text>
+
+  <rect x="740" y="398" width="225" height="76" rx="6" fill="#0c1a2e" stroke="#1e3a5f" stroke-width="1"/>
+  <text x="852" y="418" text-anchor="middle" font-size="8.5" fill="#94a3b8">INSERT auth_tokens</text>
+  <text x="852" y="432" text-anchor="middle" font-size="8.5" fill="#94a3b8">SELECT WHERE hashed_token=$1</text>
+  <text x="852" y="446" text-anchor="middle" font-size="8.5" fill="#94a3b8">UPDATE users.password_hash</text>
+  <text x="852" y="460" text-anchor="middle" font-size="8.5" fill="#94a3b8">UPDATE auth_tokens.consumed_at</text>
+  <text x="852" y="474" text-anchor="middle" font-size="8.5" fill="#f87171">UPDATE refresh_tokens SET revoked_at</text>
+
+  <rect x="990" y="398" width="156" height="76" rx="6" fill="#0d1a10" stroke="#166534" stroke-width="1"/>
+  <text x="1068" y="422" text-anchor="middle" font-size="8.5" fill="#4ade80">request: 202</text>
+  <text x="1068" y="436" text-anchor="middle" font-size="7.5" fill="#64748b">(no user info leaked)</text>
+  <text x="1068" y="452" text-anchor="middle" font-size="8.5" fill="#4ade80">confirm: 200</text>
+  <text x="1068" y="466" text-anchor="middle" font-size="7.5" fill="#f87171">401 if expired/used</text>
+
+  <line x1="166" y1="426" x2="200" y2="426" stroke="#dc2626" stroke-width="1.5" marker-end="url(#a4)"/>
+  <line x1="430" y1="430" x2="455" y2="430" stroke="#dc2626" stroke-width="1.5" marker-end="url(#a4)"/>
+  <line x1="715" y1="436" x2="740" y2="436" stroke="#64748b" stroke-width="1.5" marker-end="url(#a4)"/>
+  <line x1="965" y1="432" x2="990" y2="432" stroke="#22c55e" stroke-width="1.5" marker-end="url(#a4g)"/>
+
+  <!-- ─────────────────────────────── INVITATION ─────────────────────────────── -->
+  <rect x="10" y="488" width="1140" height="8" rx="0" fill="#1e2433"/>
+  <text x="14" y="502" font-size="9" font-weight="700" fill="#34d399" letter-spacing="1">E. INVITATION FLOW  (admin creates · anyone accepts)</text>
+
+  <rect x="14" y="508" width="152" height="62" rx="6" fill="#1a1d2e" stroke="#334155" stroke-width="1"/>
+  <text x="90" y="525" text-anchor="middle" font-size="8.5" fill="#94a3b8">POST /v1/invitations</text>
+  <text x="90" y="538" text-anchor="middle" font-size="8" fill="#64748b">admin auth · { email, role }</text>
+  <text x="90" y="555" text-anchor="middle" font-size="8.5" fill="#94a3b8">POST /v1/auth/invitations/accept</text>
+  <text x="90" y="568" text-anchor="middle" font-size="8" fill="#64748b">{ token, password }</text>
+
+  <rect x="200" y="508" width="230" height="62" rx="6" fill="#1a2535" stroke="#10b981" stroke-width="1.5" filter="url(#sh4)"/>
+  <text x="315" y="528" text-anchor="middle" font-size="9" font-weight="600" fill="#34d399">invitations.routes</text>
+  <text x="315" y="542" text-anchor="middle" font-size="8" fill="#64748b">requireRole(admin) on create</text>
+  <text x="315" y="558" text-anchor="middle" font-size="8" fill="#64748b">last-owner guard on role change</text>
+
+  <rect x="455" y="508" width="260" height="62" rx="6" fill="#1a2535" stroke="#10b981" stroke-width="1.5" filter="url(#sh4)"/>
+  <text x="585" y="528" text-anchor="middle" font-size="9" font-weight="600" fill="#34d399">team.service</text>
+  <text x="585" y="543" text-anchor="middle" font-size="8" fill="#64748b">create: INSERT invitations (SHA-256 hashed token)</text>
+  <text x="585" y="557" text-anchor="middle" font-size="8" fill="#64748b">accept: validate expiry · INSERT users · consumed_at</text>
+
+  <rect x="740" y="508" width="225" height="62" rx="6" fill="#0c1a2e" stroke="#1e3a5f" stroke-width="1"/>
+  <text x="852" y="528" text-anchor="middle" font-size="8.5" fill="#94a3b8">INSERT invitations</text>
+  <text x="852" y="542" text-anchor="middle" font-size="8.5" fill="#94a3b8">SELECT invitations WHERE hash</text>
+  <text x="852" y="556" text-anchor="middle" font-size="8.5" fill="#94a3b8">INSERT users + UPDATE consumed_at</text>
+
+  <rect x="990" y="508" width="156" height="62" rx="6" fill="#0d1a10" stroke="#166534" stroke-width="1"/>
+  <text x="1068" y="528" text-anchor="middle" font-size="8.5" fill="#4ade80">create: 201 { token }</text>
+  <text x="1068" y="542" text-anchor="middle" font-size="7.5" fill="#64748b">(for out-of-band email)</text>
+  <text x="1068" y="558" text-anchor="middle" font-size="8.5" fill="#4ade80">accept: 201 { user_id }</text>
+
+  <line x1="166" y1="536" x2="200" y2="536" stroke="#10b981" stroke-width="1.5" marker-end="url(#a4)"/>
+  <line x1="430" y1="536" x2="455" y2="536" stroke="#10b981" stroke-width="1.5" marker-end="url(#a4)"/>
+  <line x1="715" y1="536" x2="740" y2="536" stroke="#64748b" stroke-width="1.5" marker-end="url(#a4)"/>
+  <line x1="965" y1="536" x2="990" y2="536" stroke="#22c55e" stroke-width="1.5" marker-end="url(#a4g)"/>
+
+  <!-- ─────────────────────────────── API KEY AUTH ─────────────────────────────── -->
+  <rect x="10" y="584" width="1140" height="8" rx="0" fill="#1e2433"/>
+  <text x="14" y="598" font-size="9" font-weight="700" fill="#818cf8" letter-spacing="1">F. API KEY AUTHENTICATION  (stateless-ish · ownerPool lookup)</text>
+
+  <rect x="14" y="604" width="152" height="76" rx="6" fill="#1a1d2e" stroke="#334155" stroke-width="1"/>
+  <text x="90" y="624" text-anchor="middle" font-size="8.5" fill="#94a3b8">Any request with</text>
+  <text x="90" y="638" text-anchor="middle" font-size="9" fill="#818cf8">X-Api-Key: tf_...</text>
+  <text x="90" y="654" text-anchor="middle" font-size="8" fill="#64748b">programmatic access</text>
+  <text x="90" y="668" text-anchor="middle" font-size="8" fill="#64748b">always role = member</text>
+
+  <rect x="200" y="604" width="230" height="76" rx="6" fill="#1a2535" stroke="#6366f1" stroke-width="1.5" filter="url(#sh4)"/>
+  <text x="315" y="624" text-anchor="middle" font-size="9" font-weight="600" fill="#818cf8">makeAuthenticate()</text>
+  <text x="315" y="638" text-anchor="middle" font-size="8" fill="#64748b">detects X-Api-Key header</text>
+  <text x="315" y="652" text-anchor="middle" font-size="8" fill="#64748b">calls authenticateApiKey()</text>
+  <text x="315" y="666" text-anchor="middle" font-size="8" fill="#64748b">sets req.auth.role = 'member'</text>
+
+  <rect x="455" y="604" width="260" height="76" rx="6" fill="#1a2535" stroke="#6366f1" stroke-width="1.5" filter="url(#sh4)"/>
+  <text x="585" y="624" text-anchor="middle" font-size="9" font-weight="600" fill="#818cf8">apikey.service</text>
+  <text x="585" y="639" text-anchor="middle" font-size="8" fill="#64748b">SHA-256(presented key) → lookup hashed_key</text>
+  <text x="585" y="653" text-anchor="middle" font-size="8" fill="#64748b">check revoked_at IS NULL</text>
+  <text x="585" y="667" text-anchor="middle" font-size="8" fill="#64748b">fire-and-forget UPDATE last_used_at</text>
+
+  <rect x="740" y="604" width="225" height="76" rx="6" fill="#0c1a2e" stroke="#1e3a5f" stroke-width="1"/>
+  <text x="852" y="624" text-anchor="middle" font-size="8.5" fill="#94a3b8">SELECT api_keys WHERE hashed_key=$1</text>
+  <text x="852" y="638" text-anchor="middle" font-size="8.5" fill="#94a3b8">AND revoked_at IS NULL</text>
+  <text x="852" y="654" text-anchor="middle" font-size="8.5" fill="#64748b">(ownerPool — no tenant GUC yet)</text>
+  <text x="852" y="668" text-anchor="middle" font-size="8.5" fill="#64748b">UPDATE last_used_at (async, fire/forget)</text>
+
+  <rect x="990" y="604" width="156" height="76" rx="6" fill="#0d1a10" stroke="#166534" stroke-width="1"/>
+  <text x="1068" y="628" text-anchor="middle" font-size="8.5" fill="#4ade80">req.auth set</text>
+  <text x="1068" y="642" text-anchor="middle" font-size="8" fill="#64748b">{ userId: keyId,</text>
+  <text x="1068" y="656" text-anchor="middle" font-size="8" fill="#64748b">  tenantId, role:'member' }</text>
+  <text x="1068" y="672" text-anchor="middle" font-size="8.5" fill="#f87171">401 if not found/revoked</text>
+
+  <line x1="166" y1="642" x2="200" y2="642" stroke="#6366f1" stroke-width="1.5" marker-end="url(#a4)"/>
+  <line x1="430" y1="642" x2="455" y2="642" stroke="#6366f1" stroke-width="1.5" marker-end="url(#a4)"/>
+  <line x1="715" y1="642" x2="740" y2="642" stroke="#64748b" stroke-width="1.5" marker-end="url(#a4)"/>
+  <line x1="965" y1="642" x2="990" y2="642" stroke="#22c55e" stroke-width="1.5" marker-end="url(#a4g)"/>
+
+  <!-- JWT detail box -->
+  <rect x="14" y="698" width="450" height="100" rx="8" fill="#0c1a2e" stroke="#1e3a5f" stroke-width="1.5"/>
+  <text x="24" y="714" font-size="9" font-weight="700" fill="#60a5fa">JWT (Access Token) spec</text>
+  <text x="24" y="730" font-size="8.5" fill="#94a3b8">Algorithm:  HS256 (HMAC-SHA256, jose library)</text>
+  <text x="24" y="744" font-size="8.5" fill="#94a3b8">Claims:     sub (userId) · tenant_id · role</text>
+  <text x="24" y="758" font-size="8.5" fill="#94a3b8">Issuer:     tenantforge   ·   Audience: tenantforge-api</text>
+  <text x="24" y="772" font-size="8.5" fill="#94a3b8">TTL:        max 900s (15 min) — short enough, no revocation list needed</text>
+  <text x="24" y="786" font-size="8.5" fill="#64748b">Never stored server-side · stateless verification in makeAuthenticate()</text>
+
+  <!-- RBAC box -->
+  <rect x="490" y="698" width="360" height="100" rx="8" fill="#0c1a2e" stroke="#1e3a5f" stroke-width="1.5"/>
+  <text x="500" y="714" font-size="9" font-weight="700" fill="#a78bfa">RBAC  (requireRole hierarchy)</text>
+  <text x="500" y="730" font-size="8.5" fill="#94a3b8">owner  (3)  →  all ops incl. org cancel, role changes</text>
+  <text x="500" y="744" font-size="8.5" fill="#94a3b8">admin  (2)  →  billing, invitations, API keys, export</text>
+  <text x="500" y="758" font-size="8.5" fill="#94a3b8">member (1)  →  project CRUD  (also: all API key requests)</text>
+  <text x="500" y="772" font-size="8.5" fill="#64748b">403 FORBIDDEN if req.auth.role numeric &lt; required</text>
+  <text x="500" y="786" font-size="8.5" fill="#64748b">last-owner guard: cannot demote sole remaining owner</text>
+
+  <!-- Cancelled tenant box -->
+  <rect x="872" y="698" width="274" height="100" rx="8" fill="#1a1000" stroke="#713f12" stroke-width="1.5"/>
+  <text x="882" y="714" font-size="9" font-weight="700" fill="#fb923c">Cancelled Tenant Guard</text>
+  <text x="882" y="730" font-size="8.5" fill="#94a3b8">withTenant.open checks organizations.deleted_at</text>
+  <text x="882" y="744" font-size="8.5" fill="#94a3b8">→ 403 "Organization is cancelled"</text>
+  <text x="882" y="758" font-size="8.5" fill="#64748b">Fires after authentication, before any handler</text>
+  <text x="882" y="772" font-size="8.5" fill="#64748b">cancelTenant() also revokes all refresh_tokens</text>
+</svg>

@@ -1,0 +1,286 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900" font-family="'Segoe UI', system-ui, sans-serif">
+  <defs>
+    <linearGradient id="bg5" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0f1117"/><stop offset="1" stop-color="#0d1117"/></linearGradient>
+    <linearGradient id="stripeGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1a1540"/><stop offset="1" stop-color="#110f2e"/></linearGradient>
+    <filter id="sh5"><feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000" flood-opacity="0.6"/></filter>
+    <filter id="glow5"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <marker id="a5g" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#22c55e"/></marker>
+    <marker id="a5p" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#8b5cf6"/></marker>
+    <marker id="a5o" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#f97316"/></marker>
+    <marker id="a5b" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#60a5fa"/></marker>
+    <marker id="a5r" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#f87171"/></marker>
+    <marker id="a5y" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#fbbf24"/></marker>
+    <marker id="a5gr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#64748b"/></marker>
+  </defs>
+
+  <rect width="1200" height="900" fill="url(#bg5)"/>
+
+  <!-- Title -->
+  <text x="600" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#f1f5f9">TenantForge — Billing Flow</text>
+  <text x="600" y="56" text-anchor="middle" font-size="12" fill="#64748b">Checkout  ·  Customer Portal  ·  Stripe Webhook Sync  ·  Write Enforcement</text>
+
+  <!-- ══════════════════════════════════════════════════════
+       SECTION A: CHECKOUT
+       ══════════════════════════════════════════════════════ -->
+  <rect x="10" y="70" width="1180" height="10" rx="0" fill="#1e2433"/>
+  <text x="18" y="86" font-size="10" font-weight="700" fill="#60a5fa" letter-spacing="1">A.  CHECKOUT FLOW  —  POST /v1/billing/checkout</text>
+
+  <!-- Step boxes arranged L→R -->
+  <!-- Step 1: Client -->
+  <rect x="14" y="96" width="160" height="86" rx="8" fill="#1a1d2e" stroke="#334155" stroke-width="1" filter="url(#sh5)"/>
+  <text x="94" y="116" text-anchor="middle" font-size="9" font-weight="700" fill="#94a3b8">Client (admin/owner)</text>
+  <text x="94" y="132" text-anchor="middle" font-size="8.5" fill="#64748b">POST /v1/billing/checkout</text>
+  <text x="94" y="146" text-anchor="middle" font-size="8.5" fill="#64748b">{ price_id, success_url,</text>
+  <text x="94" y="160" text-anchor="middle" font-size="8.5" fill="#64748b">  cancel_url }</text>
+  <text x="94" y="174" text-anchor="middle" font-size="7.5" fill="#475569">Bearer JWT · min role: admin</text>
+
+  <line x1="174" y1="139" x2="196" y2="139" stroke="#60a5fa" stroke-width="1.5" marker-end="url(#a5b)"/>
+
+  <!-- Step 2: billing.routes validation -->
+  <rect x="196" y="96" width="190" height="86" rx="8" fill="#1a2535" stroke="#60a5fa" stroke-width="1.5" filter="url(#sh5)"/>
+  <text x="291" y="116" text-anchor="middle" font-size="9" font-weight="700" fill="#60a5fa">billing.routes</text>
+  <text x="291" y="131" text-anchor="middle" font-size="8" fill="#94a3b8">requireRole(admin)</text>
+  <text x="291" y="145" text-anchor="middle" font-size="8" fill="#94a3b8">price_id ∈ allowedPriceIds?</text>
+  <text x="291" y="159" text-anchor="middle" font-size="8" fill="#94a3b8">success/cancel origin ∈ allowed?</text>
+  <text x="291" y="173" text-anchor="middle" font-size="7.5" fill="#f87171">400 on unknown price / bad origin</text>
+
+  <line x1="386" y1="139" x2="406" y2="139" stroke="#60a5fa" stroke-width="1.5" marker-end="url(#a5b)"/>
+
+  <!-- Step 3: ensureCustomer -->
+  <rect x="406" y="96" width="210" height="86" rx="8" fill="#1a2535" stroke="#8b5cf6" stroke-width="1.5" filter="url(#sh5)"/>
+  <text x="511" y="116" text-anchor="middle" font-size="9" font-weight="700" fill="#a78bfa">billing.service</text>
+  <text x="511" y="130" text-anchor="middle" font-size="8" fill="#94a3b8">ensureCustomer()</text>
+  <text x="511" y="144" text-anchor="middle" font-size="8" fill="#94a3b8">SELECT orgs FOR UPDATE</text>
+  <text x="511" y="158" text-anchor="middle" font-size="7.5" fill="#64748b">(row-lock prevents duplicate</text>
+  <text x="511" y="170" text-anchor="middle" font-size="7.5" fill="#64748b"> Stripe customers under concurrency)</text>
+
+  <line x1="616" y1="139" x2="636" y2="139" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#a5p)"/>
+
+  <!-- Step 4: Stripe API -->
+  <rect x="636" y="86" width="160" height="116" rx="8" fill="url(#stripeGrad)" stroke="#8b5cf6" stroke-width="2" filter="url(#sh5)"/>
+  <text x="716" y="108" text-anchor="middle" font-size="14" font-weight="700" fill="#8b5cf6" filter="url(#glow5)">stripe</text>
+  <text x="716" y="124" text-anchor="middle" font-size="8.5" fill="#a78bfa">createCustomer()</text>
+  <text x="716" y="138" text-anchor="middle" font-size="8" fill="#64748b">if no stripe_customer_id</text>
+  <text x="716" y="155" text-anchor="middle" font-size="8.5" fill="#a78bfa">createCheckoutSession()</text>
+  <text x="716" y="169" text-anchor="middle" font-size="8" fill="#64748b">mode: subscription</text>
+  <text x="716" y="183" text-anchor="middle" font-size="8" fill="#64748b">returns session.url</text>
+
+  <line x1="796" y1="139" x2="816" y2="139" stroke="#8b5cf6" stroke-width="1.5" stroke-dasharray="4,2" marker-end="url(#a5p)"/>
+
+  <!-- Step 5: DB write -->
+  <rect x="816" y="96" width="210" height="86" rx="8" fill="#1a2535" stroke="#0ea5e9" stroke-width="1.5" filter="url(#sh5)"/>
+  <text x="921" y="116" text-anchor="middle" font-size="9" font-weight="700" fill="#38bdf8">Postgres (ownerPool)</text>
+  <text x="921" y="131" text-anchor="middle" font-size="8" fill="#94a3b8">UPDATE organizations</text>
+  <text x="921" y="145" text-anchor="middle" font-size="8" fill="#94a3b8">SET stripe_customer_id=$1</text>
+  <text x="921" y="159" text-anchor="middle" font-size="8" fill="#64748b">WHERE id=$2</text>
+  <text x="921" y="173" text-anchor="middle" font-size="7.5" fill="#64748b">AND stripe_customer_id IS NULL</text>
+
+  <line x1="1026" y1="139" x2="1046" y2="139" stroke="#22c55e" stroke-width="1.5" marker-end="url(#a5g)"/>
+
+  <!-- Step 6: Response -->
+  <rect x="1046" y="96" width="140" height="86" rx="8" fill="#0d1a10" stroke="#166534" stroke-width="1.5" filter="url(#sh5)"/>
+  <text x="1116" y="116" text-anchor="middle" font-size="9" font-weight="700" fill="#4ade80">201 Response</text>
+  <text x="1116" y="131" text-anchor="middle" font-size="8.5" fill="#86efac">{ checkout_url,</text>
+  <text x="1116" y="145" text-anchor="middle" font-size="8.5" fill="#86efac">  session_id }</text>
+  <text x="1116" y="161" text-anchor="middle" font-size="7.5" fill="#64748b">Client redirects to</text>
+  <text x="1116" y="175" text-anchor="middle" font-size="7.5" fill="#64748b">Stripe Checkout page</text>
+
+  <!-- ══════════════════════════════════════════════════════
+       SECTION B: WEBHOOK SYNC
+       ══════════════════════════════════════════════════════ -->
+  <rect x="10" y="202" width="1180" height="10" rx="0" fill="#1e2433"/>
+  <text x="18" y="218" font-size="10" font-weight="700" fill="#f97316" letter-spacing="1">B.  STRIPE WEBHOOK SYNC  —  POST /webhooks/stripe  (async, Stripe-initiated)</text>
+
+  <!-- Stripe sends -->
+  <rect x="14" y="226" width="160" height="104" rx="8" fill="url(#stripeGrad)" stroke="#f97316" stroke-width="2" filter="url(#sh5)"/>
+  <text x="94" y="248" text-anchor="middle" font-size="11" font-weight="700" fill="#f97316" filter="url(#glow5)">stripe</text>
+  <text x="94" y="264" text-anchor="middle" font-size="8" fill="#94a3b8">subscription.created</text>
+  <text x="94" y="278" text-anchor="middle" font-size="8" fill="#94a3b8">subscription.updated</text>
+  <text x="94" y="292" text-anchor="middle" font-size="8" fill="#94a3b8">subscription.deleted</text>
+  <text x="94" y="306" text-anchor="middle" font-size="8" fill="#94a3b8">invoice.payment_*</text>
+  <text x="94" y="320" text-anchor="middle" font-size="7.5" fill="#f97316">→ 3 retries if non-2xx</text>
+
+  <line x1="174" y1="278" x2="196" y2="278" stroke="#f97316" stroke-width="2" stroke-dasharray="5,2" marker-end="url(#a5o)"/>
+
+  <!-- webhook.routes -->
+  <rect x="196" y="226" width="200" height="104" rx="8" fill="#1a2535" stroke="#f97316" stroke-width="1.5" filter="url(#sh5)"/>
+  <text x="296" y="248" text-anchor="middle" font-size="9" font-weight="700" fill="#fb923c">webhook.routes</text>
+  <text x="296" y="264" text-anchor="middle" font-size="8" fill="#94a3b8">raw body parser (1 MiB cap)</text>
+  <text x="296" y="278" text-anchor="middle" font-size="8" fill="#94a3b8">stripe-signature header</text>
+  <text x="296" y="292" text-anchor="middle" font-size="8" fill="#94a3b8">constructEvent() ← HMAC verify</text>
+  <text x="296" y="306" text-anchor="middle" font-size="7.5" fill="#f87171">invalid sig → 400 (no state change)</text>
+  <text x="296" y="320" text-anchor="middle" font-size="7.5" fill="#64748b">rate-limit EXEMPT (R23.4)</text>
+
+  <line x1="396" y1="278" x2="416" y2="278" stroke="#f97316" stroke-width="1.5" marker-end="url(#a5o)"/>
+
+  <!-- webhook.service step 1: resolve sub_id -->
+  <rect x="416" y="226" width="200" height="104" rx="8" fill="#1a2535" stroke="#f97316" stroke-width="1.5" filter="url(#sh5)"/>
+  <text x="516" y="248" text-anchor="middle" font-size="9" font-weight="700" fill="#fb923c">webhook.service</text>
+  <text x="516" y="263" text-anchor="middle" font-size="8" fill="#94a3b8">1. Resolve subscription id</text>
+  <text x="516" y="277" text-anchor="middle" font-size="8" fill="#94a3b8">   from event.data.object</text>
+  <text x="516" y="291" text-anchor="middle" font-size="8" fill="#94a3b8">2. Irrelevant type → recordOnly()</text>
+  <text x="516" y="305" text-anchor="middle" font-size="8" fill="#64748b">   (dedup only, no sync)</text>
+  <text x="516" y="319" text-anchor="middle" font-size="7.5" fill="#94a3b8">R10.3: always 200 after verify</text>
+
+  <line x1="616" y1="278" x2="636" y2="278" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#a5p)"/>
+
+  <!-- Stripe: refetch subscription -->
+  <rect x="636" y="226" width="160" height="104" rx="8" fill="url(#stripeGrad)" stroke="#8b5cf6" stroke-width="2" filter="url(#sh5)"/>
+  <text x="716" y="248" text-anchor="middle" font-size="11" font-weight="700" fill="#8b5cf6" filter="url(#glow5)">stripe</text>
+  <text x="716" y="265" text-anchor="middle" font-size="8.5" fill="#a78bfa">getSubscription(id)</text>
+  <text x="716" y="281" text-anchor="middle" font-size="8" fill="#64748b">Re-fetch = source of truth</text>
+  <text x="716" y="295" text-anchor="middle" font-size="7.5" fill="#64748b">(tolerates out-of-order</text>
+  <text x="716" y="308" text-anchor="middle" font-size="7.5" fill="#64748b"> webhook delivery)</text>
+  <text x="716" y="322" text-anchor="middle" font-size="7.5" fill="#f87171">fail → throw (non-2xx → retry)</text>
+
+  <line x1="796" y1="278" x2="816" y2="278" stroke="#f97316" stroke-width="1.5" marker-end="url(#a5o)"/>
+
+  <!-- Atomic transaction -->
+  <rect x="816" y="220" width="370" height="116" rx="8" fill="#1a1000" stroke="#f59e0b" stroke-width="1.5" filter="url(#sh5)"/>
+  <text x="1001" y="240" text-anchor="middle" font-size="9" font-weight="700" fill="#fbbf24">Single Atomic Transaction  (ownerPool)</text>
+  <text x="826" y="258" font-size="8" fill="#94a3b8">① INSERT processed_webhooks(event_id)</text><text x="1100" y="258" font-size="8" fill="#64748b">UNIQUE → dedup guard</text>
+  <text x="826" y="272" font-size="8" fill="#f87171">   23505 (duplicate) → ROLLBACK → return "duplicate"</text>
+  <text x="826" y="286" font-size="8" fill="#94a3b8">② SELECT orgs WHERE stripe_customer_id=$customerId</text>
+  <text x="826" y="300" font-size="8" fill="#94a3b8">③ UPSERT subscriptions (status, plan, period_end)</text>
+  <text x="826" y="314" font-size="8" fill="#94a3b8">④ UPDATE organizations SET plan=$newPlan</text>
+  <text x="826" y="328" font-size="8" fill="#94a3b8">⑤ INSERT audit_log  'billing.synced'  →  COMMIT</text>
+
+  <!-- Status mapping box -->
+  <rect x="14" y="346" width="800" height="64" rx="8" fill="#0c1a2e" stroke="#1e3a5f" stroke-width="1.5"/>
+  <text x="24" y="362" font-size="9" font-weight="700" fill="#60a5fa">Stripe Status  →  Internal Status  (mapStatus)</text>
+  <text x="24" y="378" font-size="8.5" fill="#94a3b8">active / trialing  →  active / trialing  (no plan change)</text>
+  <text x="260" y="378" font-size="8.5" fill="#fbbf24">past_due / unpaid  →  past_due  (writes blocked)</text>
+  <text x="530" y="378" font-size="8.5" fill="#f87171">canceled / incomplete_expired  →  canceled  +  plan='free'</text>
+  <text x="24" y="398" font-size="8" fill="#64748b">outcome values returned: "processed" | "duplicate" | "ignored"   — always respond 200 to Stripe</text>
+
+  <!-- ══════════════════════════════════════════════════════
+       SECTION C: ENFORCEMENT
+       ══════════════════════════════════════════════════════ -->
+  <rect x="10" y="424" width="1180" height="10" rx="0" fill="#1e2433"/>
+  <text x="18" y="440" font-size="10" font-weight="700" fill="#f87171" letter-spacing="1">C.  WRITE ENFORCEMENT  —  called by projects.service on every write</text>
+
+  <!-- getBillingState -->
+  <rect x="14" y="450" width="240" height="120" rx="8" fill="#1a2535" stroke="#dc2626" stroke-width="1.5" filter="url(#sh5)"/>
+  <text x="134" y="470" text-anchor="middle" font-size="9" font-weight="700" fill="#f87171">getBillingState(tenantId)</text>
+  <text x="134" y="487" text-anchor="middle" font-size="8" fill="#94a3b8">SELECT plan FROM organizations</text>
+  <text x="134" y="501" text-anchor="middle" font-size="8" fill="#94a3b8">SELECT status FROM subscriptions</text>
+  <text x="134" y="515" text-anchor="middle" font-size="8" fill="#64748b">ORDER BY updated_at DESC LIMIT 1</text>
+  <text x="134" y="530" text-anchor="middle" font-size="7.5" fill="#64748b">fallback: status='active' if no sub row</text>
+  <text x="134" y="544" text-anchor="middle" font-size="7.5" fill="#64748b">(free tenants who never subscribed)</text>
+
+  <!-- assertWriteAllowed -->
+  <rect x="276" y="450" width="230" height="120" rx="8" fill="#1a2535" stroke="#dc2626" stroke-width="1.5" filter="url(#sh5)"/>
+  <text x="391" y="470" text-anchor="middle" font-size="9" font-weight="700" fill="#f87171">assertWriteAllowed(status)</text>
+  <rect x="290" y="482" width="202" height="30" rx="4" fill="#300"/>
+  <text x="391" y="497" text-anchor="middle" font-size="8.5" fill="#fca5a5">status = past_due  →  402</text>
+  <text x="391" y="509" text-anchor="middle" font-size="8.5" fill="#fca5a5">status = canceled  →  402</text>
+  <rect x="290" y="516" width="202" height="30" rx="4" fill="#14532d"/>
+  <text x="391" y="531" text-anchor="middle" font-size="8.5" fill="#86efac">active | trialing  →  allowed</text>
+  <text x="391" y="543" text-anchor="middle" font-size="7.5" fill="#64748b">reads always allowed (no check)</text>
+  <text x="391" y="558" text-anchor="middle" font-size="7.5" fill="#64748b">R11.1 degraded-access matrix</text>
+
+  <!-- assertProjectQuota -->
+  <rect x="528" y="450" width="260" height="120" rx="8" fill="#1a2535" stroke="#dc2626" stroke-width="1.5" filter="url(#sh5)"/>
+  <text x="658" y="470" text-anchor="middle" font-size="9" font-weight="700" fill="#f87171">assertProjectQuota(db, plan)</text>
+  <text x="658" y="487" text-anchor="middle" font-size="8" fill="#94a3b8">SELECT count(*) FROM projects</text>
+  <text x="658" y="501" text-anchor="middle" font-size="8" fill="#94a3b8">WHERE status &lt;&gt; 'archived'</text>
+  <text x="658" y="515" text-anchor="middle" font-size="8" fill="#94a3b8">(tenant RLS auto-scopes the query)</text>
+  <rect x="540" y="522" width="236" height="16" rx="3" fill="#1a1000"/>
+  <text x="658" y="533" text-anchor="middle" font-size="8" fill="#fbbf24">free:3  starter:25  pro:∞  (null=unlimited)</text>
+  <text x="658" y="549" text-anchor="middle" font-size="7.5" fill="#f87171">count ≥ cap → 403 QUOTA_EXCEEDED</text>
+  <text x="658" y="563" text-anchor="middle" font-size="7.5" fill="#64748b">called only on POST (create), not reads</text>
+
+  <!-- Arrows between enforcement steps -->
+  <line x1="254" y1="510" x2="276" y2="510" stroke="#dc2626" stroke-width="1.5" marker-end="url(#a5r)"/>
+  <line x1="506" y1="510" x2="528" y2="510" stroke="#dc2626" stroke-width="1.5" marker-end="url(#a5r)"/>
+
+  <!-- Caller note -->
+  <rect x="810" y="450" width="376" height="120" rx="8" fill="#0c1a2e" stroke="#1e3a5f" stroke-width="1.5"/>
+  <text x="820" y="470" font-size="9" font-weight="700" fill="#60a5fa">Called from  projects.service  on every write path</text>
+  <text x="820" y="488" font-size="8.5" fill="#94a3b8">POST   /v1/projects      →  assertWriteAllowed + assertProjectQuota</text>
+  <text x="820" y="503" font-size="8.5" fill="#94a3b8">PATCH  /v1/projects/:id  →  assertWriteAllowed</text>
+  <text x="820" y="518" font-size="8.5" fill="#94a3b8">DELETE /v1/projects/:id  →  assertWriteAllowed</text>
+  <text x="820" y="534" font-size="8" fill="#64748b">GET (reads) — no enforcement, always allowed</text>
+  <text x="820" y="550" font-size="8" fill="#64748b">Uses req.db (app-role pool, RLS active) for quota count</text>
+  <text x="820" y="564" font-size="8" fill="#64748b">Uses ownerPool for billing state (organizations table)</text>
+
+  <!-- ══════════════════════════════════════════════════════
+       SECTION D: PORTAL
+       ══════════════════════════════════════════════════════ -->
+  <rect x="10" y="584" width="1180" height="10" rx="0" fill="#1e2433"/>
+  <text x="18" y="600" font-size="10" font-weight="700" fill="#34d399" letter-spacing="1">D.  CUSTOMER PORTAL  —  POST /v1/billing/portal  (self-service plan management)</text>
+
+  <rect x="14" y="610" width="160" height="68" rx="8" fill="#1a1d2e" stroke="#334155" stroke-width="1" filter="url(#sh5)"/>
+  <text x="94" y="630" text-anchor="middle" font-size="9" fill="#94a3b8">POST /v1/billing/portal</text>
+  <text x="94" y="644" text-anchor="middle" font-size="8.5" fill="#64748b">{ return_url }</text>
+  <text x="94" y="660" text-anchor="middle" font-size="7.5" fill="#475569">admin · return origin validated</text>
+  <text x="94" y="672" text-anchor="middle" font-size="7.5" fill="#475569">open-redirect protection</text>
+
+  <line x1="174" y1="644" x2="200" y2="644" stroke="#34d399" stroke-width="1.5" marker-end="url(#a5g)"/>
+
+  <rect x="200" y="610" width="190" height="68" rx="8" fill="#1a2535" stroke="#10b981" stroke-width="1.5" filter="url(#sh5)"/>
+  <text x="295" y="630" text-anchor="middle" font-size="9" font-weight="700" fill="#34d399">billing.service</text>
+  <text x="295" y="645" text-anchor="middle" font-size="8" fill="#94a3b8">ensureCustomer()  (same lock</text>
+  <text x="295" y="659" text-anchor="middle" font-size="8" fill="#94a3b8">as checkout, reuses cust. if exists)</text>
+  <text x="295" y="672" text-anchor="middle" font-size="8" fill="#64748b">openPortal()</text>
+
+  <line x1="390" y1="644" x2="410" y2="644" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#a5p)"/>
+
+  <rect x="410" y="604" width="160" height="84" rx="8" fill="url(#stripeGrad)" stroke="#8b5cf6" stroke-width="2" filter="url(#sh5)"/>
+  <text x="490" y="624" text-anchor="middle" font-size="11" font-weight="700" fill="#8b5cf6" filter="url(#glow5)">stripe</text>
+  <text x="490" y="641" text-anchor="middle" font-size="8.5" fill="#a78bfa">billingPortal.sessions.create()</text>
+  <text x="490" y="655" text-anchor="middle" font-size="8" fill="#64748b">customerId + returnUrl</text>
+  <text x="490" y="669" text-anchor="middle" font-size="8" fill="#64748b">→ hosted portal URL</text>
+  <text x="490" y="682" text-anchor="middle" font-size="7.5" fill="#f87171">null url → 502 badGateway</text>
+
+  <line x1="570" y1="644" x2="590" y2="644" stroke="#34d399" stroke-width="1.5" marker-end="url(#a5g)"/>
+
+  <rect x="590" y="610" width="180" height="68" rx="8" fill="#0d1a10" stroke="#166534" stroke-width="1.5" filter="url(#sh5)"/>
+  <text x="680" y="630" text-anchor="middle" font-size="9" font-weight="700" fill="#4ade80">201 Response</text>
+  <text x="680" y="645" text-anchor="middle" font-size="8.5" fill="#86efac">{ portal_url }</text>
+  <text x="680" y="660" text-anchor="middle" font-size="7.5" fill="#64748b">Client redirects to Stripe</text>
+  <text x="680" y="673" text-anchor="middle" font-size="7.5" fill="#64748b">hosted portal page</text>
+
+  <!-- ══════════════════════════════════════════════════════
+       ERROR HANDLING summary
+       ══════════════════════════════════════════════════════ -->
+  <rect x="820" y="596" width="366" height="102" rx="8" fill="#1a1000" stroke="#713f12" stroke-width="1.5"/>
+  <text x="830" y="614" font-size="9" font-weight="700" fill="#fb923c">Error Handling  (wrapStripeError)</text>
+  <text x="830" y="630" font-size="8.5" fill="#94a3b8">AppError (notFound, conflict, etc.)  →  passes through as-is</text>
+  <text x="830" y="645" font-size="8.5" fill="#94a3b8">Any Stripe SDK error  →  wrapped as 502 badGateway</text>
+  <text x="830" y="659" font-size="8.5" fill="#64748b">(no Stripe internals ever reach the client  — R14.5)</text>
+  <text x="830" y="674" font-size="8.5" fill="#64748b">Webhook: non-2xx → Stripe retries.  Event NOT recorded as</text>
+  <text x="830" y="688" font-size="8.5" fill="#64748b">processed until after successful Stripe refetch + DB commit.</text>
+
+  <!-- ══════════════════════════════════════════════════════
+       PLAN QUOTA TABLE
+       ══════════════════════════════════════════════════════ -->
+  <rect x="14" y="694" width="790" height="90" rx="8" fill="#0c1a2e" stroke="#1e3a5f" stroke-width="1.5"/>
+  <text x="24" y="712" font-size="9" font-weight="700" fill="#60a5fa">Plan Summary</text>
+  <!-- header row -->
+  <rect x="24" y="718" width="770" height="18" rx="3" fill="#1e293b"/>
+  <text x="120" y="731" text-anchor="middle" font-size="8.5" font-weight="600" fill="#94a3b8">Plan</text>
+  <text x="280" y="731" text-anchor="middle" font-size="8.5" font-weight="600" fill="#94a3b8">Active Project Quota</text>
+  <text x="460" y="731" text-anchor="middle" font-size="8.5" font-weight="600" fill="#94a3b8">Write access on past_due/canceled</text>
+  <text x="660" y="731" text-anchor="middle" font-size="8.5" font-weight="600" fill="#94a3b8">Rate limit (per tenant)</text>
+  <text x="120" y="748" text-anchor="middle" font-size="8.5" fill="#94a3b8">free</text>
+  <text x="280" y="748" text-anchor="middle" font-size="8.5" fill="#fbbf24">3</text>
+  <text x="460" y="748" text-anchor="middle" font-size="8.5" fill="#f87171">blocked (402)</text>
+  <text x="660" y="748" text-anchor="middle" font-size="8.5" fill="#94a3b8">60 cap · 1 req/s</text>
+  <text x="120" y="762" text-anchor="middle" font-size="8.5" fill="#94a3b8">starter</text>
+  <text x="280" y="762" text-anchor="middle" font-size="8.5" fill="#fbbf24">25</text>
+  <text x="460" y="762" text-anchor="middle" font-size="8.5" fill="#f87171">blocked (402)</text>
+  <text x="660" y="762" text-anchor="middle" font-size="8.5" fill="#94a3b8">300 cap · 5 req/s</text>
+  <text x="120" y="776" text-anchor="middle" font-size="8.5" fill="#94a3b8">pro</text>
+  <text x="280" y="776" text-anchor="middle" font-size="8.5" fill="#4ade80">∞ unlimited</text>
+  <text x="460" y="776" text-anchor="middle" font-size="8.5" fill="#f87171">blocked (402)</text>
+  <text x="660" y="776" text-anchor="middle" font-size="8.5" fill="#94a3b8">1000 cap · 16.7 req/s</text>
+
+  <!-- Legend -->
+  <rect x="820" y="710" width="366" height="70" rx="8" fill="#1a1d2e" stroke="#334155" stroke-width="1"/>
+  <text x="830" y="728" font-size="9" font-weight="600" fill="#94a3b8">EDGE LEGEND</text>
+  <line x1="830" y1="742" x2="860" y2="742" stroke="#60a5fa" stroke-width="1.5"/><text x="867" y="746" font-size="8.5" fill="#94a3b8">Authenticated API request</text>
+  <line x1="830" y1="758" x2="860" y2="758" stroke="#8b5cf6" stroke-width="1.5"/><text x="867" y="762" font-size="8.5" fill="#94a3b8">Stripe API call (outbound)</text>
+  <line x1="1010" y1="742" x2="1040" y2="742" stroke="#f97316" stroke-width="1.5" stroke-dasharray="5,2"/><text x="1047" y="746" font-size="8.5" fill="#94a3b8">Stripe webhook (inbound)</text>
+  <line x1="1010" y1="758" x2="1040" y2="758" stroke="#f87171" stroke-width="1.5"/><text x="1047" y="762" font-size="8.5" fill="#94a3b8">Enforcement / error path</text>
+</svg>

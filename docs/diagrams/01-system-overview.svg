@@ -1,0 +1,181 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 720" width="1100" height="720" font-family="'Segoe UI', system-ui, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0f1117"/><stop offset="1" stop-color="#1a1d2e"/></linearGradient>
+    <linearGradient id="awsGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1a2535"/><stop offset="1" stop-color="#0d1b2a"/></linearGradient>
+    <linearGradient id="privateGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0d1f1a"/><stop offset="1" stop-color="#0a1714"/></linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="shadow"><feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000" flood-opacity="0.5"/></filter>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#64748b"/></marker>
+    <marker id="arrowGreen" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#22c55e"/></marker>
+    <marker id="arrowOrange" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#f97316"/></marker>
+    <marker id="arrowBlue" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#60a5fa"/></marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1100" height="720" fill="url(#bg)"/>
+
+  <!-- Title -->
+  <text x="550" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#f1f5f9" letter-spacing="0.5">TenantForge — System Overview</text>
+  <text x="550" y="56" text-anchor="middle" font-size="12" fill="#64748b">AWS · ECS Fargate · RDS Postgres · ElastiCache Redis · Stripe</text>
+
+  <!-- Internet / External -->
+  <rect x="20" y="80" width="140" height="100" rx="10" fill="#1e2433" stroke="#334155" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="90" y="108" text-anchor="middle" font-size="11" fill="#94a3b8" font-weight="600">INTERNET</text>
+  <!-- Client icon -->
+  <circle cx="75" cy="140" r="14" fill="none" stroke="#60a5fa" stroke-width="1.5"/>
+  <circle cx="75" cy="135" r="5" fill="#60a5fa"/>
+  <path d="M62,155 Q75,145 88,155" fill="none" stroke="#60a5fa" stroke-width="1.5"/>
+  <text x="95" y="138" font-size="10" fill="#94a3b8">Browsers</text>
+  <text x="95" y="152" font-size="10" fill="#94a3b8">API clients</text>
+
+  <!-- Stripe external -->
+  <rect x="20" y="220" width="140" height="70" rx="10" fill="#1e2433" stroke="#334155" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="36" y="240" width="108" height="34" rx="6" fill="#635bff" opacity="0.15"/>
+  <text x="90" y="257" text-anchor="middle" font-size="13" font-weight="700" fill="#8b5cf6">stripe</text>
+  <text x="90" y="271" text-anchor="middle" font-size="9" fill="#94a3b8">Payment Gateway</text>
+
+  <!-- AWS Region box -->
+  <rect x="190" y="72" width="890" height="620" rx="14" fill="url(#awsGrad)" stroke="#1e3a5f" stroke-width="1.5"/>
+  <text x="210" y="95" font-size="11" font-weight="600" fill="#3b82f6" letter-spacing="1">AWS REGION  ·  us-east-1</text>
+
+  <!-- VPC box -->
+  <rect x="205" y="104" width="860" height="576" rx="10" fill="none" stroke="#1e40af" stroke-width="1" stroke-dasharray="6,4"/>
+  <text x="222" y="120" font-size="10" fill="#3b82f6" opacity="0.8">VPC  10.0.0.0/16</text>
+
+  <!-- Public Subnets -->
+  <rect x="220" y="130" width="840" height="170" rx="8" fill="#0f1f3d" stroke="#1d4ed8" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="236" y="148" font-size="9" fill="#60a5fa" font-weight="600">PUBLIC SUBNETS  ·  AZ-a · AZ-b</text>
+
+  <!-- WAF -->
+  <rect x="240" y="160" width="120" height="120" rx="8" fill="#1a2535" stroke="#f97316" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="265" y="178" width="70" height="42" rx="5" fill="#f97316" opacity="0.12"/>
+  <text x="300" y="196" text-anchor="middle" font-size="10" font-weight="700" fill="#fb923c">🛡 WAF</text>
+  <text x="300" y="210" text-anchor="middle" font-size="8.5" fill="#94a3b8">OWASP Rules</text>
+  <text x="300" y="222" text-anchor="middle" font-size="8.5" fill="#94a3b8">SQLi Rules</text>
+  <text x="300" y="234" text-anchor="middle" font-size="8.5" fill="#94a3b8">Bad Inputs</text>
+  <text x="300" y="265" text-anchor="middle" font-size="8" fill="#64748b">AWS WAFv2</text>
+
+  <!-- ALB -->
+  <rect x="400" y="160" width="150" height="120" rx="8" fill="#1a2535" stroke="#0ea5e9" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="420" y="178" width="110" height="42" rx="5" fill="#0ea5e9" opacity="0.12"/>
+  <text x="475" y="196" text-anchor="middle" font-size="10" font-weight="700" fill="#38bdf8">⚖ ALB</text>
+  <text x="475" y="210" text-anchor="middle" font-size="8.5" fill="#94a3b8">HTTP:80 → HTTPS</text>
+  <text x="475" y="222" text-anchor="middle" font-size="8.5" fill="#94a3b8">HTTPS:443 (TLS 1.3)</text>
+  <text x="475" y="234" text-anchor="middle" font-size="8.5" fill="#94a3b8">Health: GET /health</text>
+  <text x="475" y="265" text-anchor="middle" font-size="8" fill="#64748b">Application Load Balancer</text>
+
+  <!-- ECR -->
+  <rect x="600" y="160" width="120" height="120" rx="8" fill="#1a2535" stroke="#6366f1" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="618" y="178" width="84" height="42" rx="5" fill="#6366f1" opacity="0.12"/>
+  <text x="660" y="199" text-anchor="middle" font-size="10" font-weight="700" fill="#818cf8">📦 ECR</text>
+  <text x="660" y="213" text-anchor="middle" font-size="8.5" fill="#94a3b8">tenantforge image</text>
+  <text x="660" y="225" text-anchor="middle" font-size="8.5" fill="#94a3b8">scan_on_push=true</text>
+  <text x="660" y="265" text-anchor="middle" font-size="8" fill="#64748b">Elastic Container Registry</text>
+
+  <!-- CloudFront / S3 Admin SPA -->
+  <rect x="770" y="160" width="130" height="120" rx="8" fill="#1a2535" stroke="#8b5cf6" stroke-width="1.5" filter="url(#shadow)" opacity="0.75"/>
+  <rect x="786" y="178" width="98" height="42" rx="5" fill="#8b5cf6" opacity="0.10"/>
+  <text x="835" y="196" text-anchor="middle" font-size="10" font-weight="700" fill="#a78bfa">☁ CloudFront</text>
+  <text x="835" y="210" text-anchor="middle" font-size="8.5" fill="#94a3b8">Admin SPA</text>
+  <text x="835" y="222" text-anchor="middle" font-size="8.5" fill="#94a3b8">S3 Origin</text>
+  <text x="835" y="234" text-anchor="middle" font-size="8.5" fill="#64748b" font-style="italic">opt-in per env</text>
+  <text x="835" y="265" text-anchor="middle" font-size="8" fill="#64748b">Static Site</text>
+
+  <!-- Private Subnets -->
+  <rect x="220" y="318" width="840" height="346" rx="8" fill="url(#privateGrad)" stroke="#166534" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="236" y="336" font-size="9" fill="#4ade80" font-weight="600">PRIVATE SUBNETS  ·  AZ-a · AZ-b</text>
+
+  <!-- ECS Fargate -->
+  <rect x="240" y="348" width="260" height="200" rx="8" fill="#1a2535" stroke="#22c55e" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="256" y="364" width="228" height="36" rx="5" fill="#22c55e" opacity="0.12"/>
+  <text x="370" y="381" text-anchor="middle" font-size="11" font-weight="700" fill="#4ade80">🚀 ECS Fargate</text>
+  <text x="370" y="394" text-anchor="middle" font-size="8.5" fill="#86efac">Fastify · Node.js · 256CPU/512MiB</text>
+  <!-- Task detail -->
+  <rect x="256" y="408" width="228" height="124" rx="4" fill="#0a1a12" stroke="#166534" stroke-width="1"/>
+  <text x="370" y="422" text-anchor="middle" font-size="9" font-weight="600" fill="#4ade80">Container Env (from Secrets Manager)</text>
+  <text x="264" y="438" font-size="8.5" fill="#94a3b8">DATABASE_URL         ← app role pool</text>
+  <text x="264" y="452" font-size="8.5" fill="#94a3b8">JWT_SIGNING_SECRET   ← HS256</text>
+  <text x="264" y="466" font-size="8.5" fill="#94a3b8">STRIPE_SECRET_KEY    ← billing</text>
+  <text x="264" y="480" font-size="8.5" fill="#94a3b8">STRIPE_WEBHOOK_SECRET</text>
+  <text x="264" y="494" font-size="8.5" fill="#64748b">PORT=3000  NODE_ENV=production</text>
+  <text x="264" y="516" font-size="8" fill="#6b7280">Logs → CloudWatch /ecs/{name}</text>
+
+  <!-- Secrets Manager -->
+  <rect x="240" y="564" width="260" height="80" rx="8" fill="#1a2535" stroke="#dc2626" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="256" y="576" width="228" height="32" rx="5" fill="#dc2626" opacity="0.12"/>
+  <text x="370" y="592" text-anchor="middle" font-size="10" font-weight="700" fill="#f87171">🔐 Secrets Manager</text>
+  <text x="370" y="606" text-anchor="middle" font-size="8.5" fill="#fca5a5">{name}/app  (single JSON secret)</text>
+  <text x="370" y="628" text-anchor="middle" font-size="8" fill="#64748b">Injected via ECS valueFrom at container start</text>
+
+  <!-- RDS -->
+  <rect x="540" y="348" width="200" height="200" rx="8" fill="#1a2535" stroke="#0ea5e9" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="556" y="364" width="168" height="36" rx="5" fill="#0ea5e9" opacity="0.12"/>
+  <text x="640" y="381" text-anchor="middle" font-size="11" font-weight="700" fill="#38bdf8">🐘 RDS PostgreSQL</text>
+  <text x="640" y="394" text-anchor="middle" font-size="8.5" fill="#7dd3fc">pg 16 · db.t4g.micro · encrypted</text>
+  <rect x="556" y="408" width="168" height="124" rx="4" fill="#0a1520" stroke="#0c4a6e" stroke-width="1"/>
+  <text x="640" y="422" text-anchor="middle" font-size="9" font-weight="600" fill="#38bdf8">Two DB Roles</text>
+  <text x="564" y="438" font-size="8.5" fill="#94a3b8">tenantforge_migrator</text>
+  <text x="564" y="452" font-size="8.5" fill="#64748b">  ↳ ownerPool (global tables)</text>
+  <text x="564" y="466" font-size="8.5" fill="#94a3b8">tenantforge_app</text>
+  <text x="564" y="480" font-size="8.5" fill="#64748b">  ↳ NOSUPERUSER NOBYPASSRLS</text>
+  <text x="564" y="494" font-size="8.5" fill="#64748b">  ↳ RLS enforced on all writes</text>
+  <text x="564" y="516" font-size="8" fill="#475569">GUC: app.current_tenant_id (txn-local)</text>
+
+  <!-- ElastiCache -->
+  <rect x="780" y="348" width="240" height="200" rx="8" fill="#1a2535" stroke="#f59e0b" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="796" y="364" width="208" height="36" rx="5" fill="#f59e0b" opacity="0.12"/>
+  <text x="900" y="381" text-anchor="middle" font-size="11" font-weight="700" fill="#fbbf24">⚡ ElastiCache Redis</text>
+  <text x="900" y="394" text-anchor="middle" font-size="8.5" fill="#fde68a">Redis 7.1 · cache.t4g.micro</text>
+  <rect x="796" y="408" width="208" height="124" rx="4" fill="#1a1000" stroke="#713f12" stroke-width="1"/>
+  <text x="900" y="422" text-anchor="middle" font-size="9" font-weight="600" fill="#fbbf24">Token-Bucket Rate Limiting</text>
+  <text x="804" y="438" font-size="8.5" fill="#94a3b8">IP credential: 10 burst / min</text>
+  <text x="804" y="452" font-size="8.5" fill="#94a3b8">IP general:    30 burst / min</text>
+  <text x="804" y="466" font-size="8.5" fill="#94a3b8">free plan:     60 cap, 1 req/s</text>
+  <text x="804" y="480" font-size="8.5" fill="#94a3b8">starter:       300 cap, 5 req/s</text>
+  <text x="804" y="494" font-size="8.5" fill="#94a3b8">pro:           1000 cap, 16.7 req/s</text>
+  <text x="804" y="514" font-size="8" fill="#475569">Lua atomic EVALSHA · NOSCRIPT reload</text>
+
+  <!-- CloudWatch box -->
+  <rect x="540" y="564" width="480" height="80" rx="8" fill="#1a2535" stroke="#64748b" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="556" y="576" width="448" height="32" rx="5" fill="#475569" opacity="0.15"/>
+  <text x="780" y="592" text-anchor="middle" font-size="10" font-weight="700" fill="#cbd5e1">📊 CloudWatch + SNS Alarms</text>
+  <text x="780" y="628" text-anchor="middle" font-size="8.5" fill="#94a3b8">5xx &gt; 10 in 5min  ·  p99 latency &gt; 400ms  ·  4xx &gt; 100 in 1min  →  SNS email</text>
+
+  <!-- VPC Endpoints note -->
+  <text x="990" y="460" font-size="8" fill="#475569" text-anchor="end">VPC Endpoints</text>
+  <text x="990" y="472" font-size="8" fill="#475569" text-anchor="end">(no NAT Gateway):</text>
+  <text x="990" y="484" font-size="8" fill="#475569" text-anchor="end">ecr.api · ecr.dkr</text>
+  <text x="990" y="496" font-size="8" fill="#475569" text-anchor="end">secretsmanager · logs</text>
+  <text x="990" y="508" font-size="8" fill="#475569" text-anchor="end">S3 gateway (free)</text>
+
+  <!-- CONNECTIONS -->
+  <!-- Internet → WAF -->
+  <line x1="160" y1="130" x2="240" y2="210" stroke="#60a5fa" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+  <!-- Stripe → ALB (webhooks) -->
+  <line x1="160" y1="252" x2="400" y2="230" stroke="#f97316" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowOrange)"/>
+  <!-- WAF → ALB -->
+  <line x1="360" y1="220" x2="400" y2="220" stroke="#0ea5e9" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+  <!-- ALB → ECS -->
+  <line x1="475" y1="280" x2="370" y2="348" stroke="#22c55e" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+  <!-- ECR → ECS (pull) -->
+  <line x1="660" y1="280" x2="450" y2="348" stroke="#818cf8" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+  <!-- ECS → RDS -->
+  <line x1="500" y1="448" x2="540" y2="448" stroke="#0ea5e9" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+  <!-- ECS → Redis -->
+  <line x1="500" y1="400" x2="780" y2="380" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arrowOrange)"/>
+  <!-- Secrets → ECS (inject) -->
+  <line x1="370" y1="564" x2="370" y2="548" stroke="#f87171" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+  <!-- ECS → Stripe (API calls) -->
+  <path d="M 240,430 Q 120,430 90,310 Q 80,260 90,255" fill="none" stroke="#8b5cf6" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrow)"/>
+  <!-- CW ← RDS, ECS, Redis -->
+  <line x1="640" y1="548" x2="640" y2="564" stroke="#475569" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#arrow)"/>
+
+  <!-- Legend -->
+  <rect x="20" y="460" width="140" height="120" rx="6" fill="#1a1d2e" stroke="#334155" stroke-width="1"/>
+  <text x="90" y="478" text-anchor="middle" font-size="9" font-weight="600" fill="#94a3b8">LEGEND</text>
+  <line x1="34" y1="492" x2="58" y2="492" stroke="#60a5fa" stroke-width="1.5"/><text x="64" y="496" font-size="8.5" fill="#94a3b8">HTTPS / client traffic</text>
+  <line x1="34" y1="508" x2="58" y2="508" stroke="#22c55e" stroke-width="1.5"/><text x="64" y="512" font-size="8.5" fill="#94a3b8">Internal routing</text>
+  <line x1="34" y1="524" x2="58" y2="524" stroke="#f97316" stroke-width="1.5" stroke-dasharray="4,2"/><text x="64" y="528" font-size="8.5" fill="#94a3b8">Stripe webhook (in)</text>
+  <line x1="34" y1="540" x2="58" y2="540" stroke="#8b5cf6" stroke-width="1.5" stroke-dasharray="4,2"/><text x="64" y="544" font-size="8.5" fill="#94a3b8">Stripe API (out)</text>
+  <line x1="34" y1="556" x2="58" y2="556" stroke="#f87171" stroke-width="1.5" stroke-dasharray="3,2"/><text x="64" y="560" font-size="8.5" fill="#94a3b8">Secret injection</text>
+</svg>

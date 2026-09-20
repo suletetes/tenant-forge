@@ -1,0 +1,229 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 820" width="1200" height="820" font-family="'Segoe UI', system-ui, sans-serif">
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0f1117"/><stop offset="1" stop-color="#111827"/></linearGradient>
+    <filter id="sh3"><feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000" flood-opacity="0.6"/></filter>
+    <marker id="fk" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,0 L0,10 L10,5 z" fill="#64748b"/></marker>
+    <marker id="fkBlue" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,0 L0,10 L10,5 z" fill="#0ea5e9"/></marker>
+  </defs>
+
+  <rect width="1200" height="820" fill="url(#bg3)"/>
+
+  <!-- Title -->
+  <text x="600" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#f1f5f9">TenantForge — Data Model</text>
+  <text x="600" y="56" text-anchor="middle" font-size="12" fill="#64748b">PostgreSQL · Drizzle ORM · Row Level Security on all tenant-scoped tables</text>
+
+  <!-- RLS legend -->
+  <rect x="20" y="70" width="240" height="34" rx="6" fill="#0d1f1a" stroke="#166534" stroke-width="1.5"/>
+  <rect x="34" y="79" width="12" height="12" rx="2" fill="#22c55e" opacity="0.8"/>
+  <text x="52" y="90" font-size="9" fill="#4ade80" font-weight="600">TENANT-SCOPED</text>
+  <text x="52" y="100" font-size="8.5" fill="#64748b">RLS ENABLE + FORCE on table</text>
+  <rect x="280" y="70" width="200" height="34" rx="6" fill="#1a1d2e" stroke="#334155" stroke-width="1.5"/>
+  <rect x="294" y="79" width="12" height="12" rx="2" fill="#475569" opacity="0.8"/>
+  <text x="312" y="90" font-size="9" fill="#94a3b8" font-weight="600">GLOBAL TABLE</text>
+  <text x="312" y="100" font-size="8.5" fill="#64748b">No RLS — owner pool access</text>
+
+  <!-- ══════════════════════ TABLE: organizations (center) ══════════════════════ -->
+  <g id="t-orgs">
+    <rect x="460" y="88" width="280" height="200" rx="8" fill="#1a2535" stroke="#0ea5e9" stroke-width="2" filter="url(#sh3)"/>
+    <!-- header -->
+    <rect x="460" y="88" width="280" height="36" rx="8" fill="#0e4675"/>
+    <rect x="460" y="108" width="280" height="16" fill="#0e4675"/>
+    <text x="600" y="110" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">organizations</text>
+    <text x="600" y="123" text-anchor="middle" font-size="8.5" fill="#93c5fd">GLOBAL TABLE · no RLS</text>
+    <!-- cols -->
+    <text x="472" y="142" font-size="9" fill="#fbbf24" font-weight="600">PK  id</text><text x="580" y="142" font-size="9" fill="#64748b">uuid  DEFAULT gen_random_uuid()</text>
+    <text x="472" y="156" font-size="9" fill="#94a3b8">    name</text><text x="580" y="156" font-size="9" fill="#64748b">text  NOT NULL</text>
+    <text x="472" y="170" font-size="9" fill="#94a3b8">    slug</text><text x="580" y="170" font-size="9" fill="#64748b">text  UNIQUE NOT NULL</text>
+    <text x="472" y="184" font-size="9" fill="#94a3b8">    plan</text><text x="580" y="184" font-size="9" fill="#64748b">text  DEFAULT 'free'</text>
+    <text x="472" y="198" font-size="9" fill="#94a3b8">    stripe_customer_id</text><text x="580" y="198" font-size="9" fill="#64748b">text  (nullable)</text>
+    <text x="472" y="212" font-size="9" fill="#94a3b8">    created_at</text><text x="580" y="212" font-size="9" fill="#64748b">timestamptz</text>
+    <text x="472" y="226" font-size="9" fill="#f87171">    deleted_at</text><text x="580" y="226" font-size="9" fill="#64748b">timestamptz  (soft-delete)</text>
+    <!-- badge -->
+    <rect x="476" y="269" width="248" height="14" rx="3" fill="#0c2a3f"/>
+    <text x="600" y="279" text-anchor="middle" font-size="7.5" fill="#38bdf8">All tenant-scoped tables have FK → organizations.id</text>
+  </g>
+
+  <!-- ══════════════════════ TABLE: users ══════════════════════ -->
+  <g id="t-users">
+    <rect x="20" y="340" width="240" height="186" rx="8" fill="#1a2535" stroke="#22c55e" stroke-width="1.5" filter="url(#sh3)"/>
+    <rect x="20" y="340" width="240" height="36" rx="8" fill="#14532d"/>
+    <rect x="20" y="360" width="240" height="16" fill="#14532d"/>
+    <rect x="30" y="349" width="10" height="10" rx="2" fill="#22c55e" opacity="0.8"/>
+    <text x="140" y="361" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">users</text>
+    <text x="140" y="375" text-anchor="middle" font-size="8.5" fill="#86efac">TENANT-SCOPED · RLS</text>
+    <text x="32" y="396" font-size="9" fill="#fbbf24" font-weight="600">PK  id</text><text x="100" y="396" font-size="9" fill="#64748b">uuid</text>
+    <text x="32" y="410" font-size="9" fill="#60a5fa" font-weight="600">FK  tenant_id</text><text x="100" y="410" font-size="9" fill="#64748b">→ orgs.id</text>
+    <text x="32" y="424" font-size="9" fill="#94a3b8">    email</text><text x="100" y="424" font-size="9" fill="#64748b">text  UNIQUE(t,e)</text>
+    <text x="32" y="438" font-size="9" fill="#f87171">    password_hash</text><text x="130" y="438" font-size="9" fill="#64748b">text (bcrypt)</text>
+    <text x="32" y="452" font-size="9" fill="#94a3b8">    role</text><text x="100" y="452" font-size="9" fill="#64748b">owner|admin|member</text>
+    <text x="32" y="466" font-size="9" fill="#94a3b8">    email_verified</text><text x="130" y="466" font-size="9" fill="#64748b">bool</text>
+    <text x="32" y="480" font-size="9" fill="#94a3b8">    created_at</text><text x="100" y="480" font-size="9" fill="#64748b">timestamptz</text>
+    <text x="32" y="510" font-size="8" fill="#475569">↑ FK from refresh_tokens, auth_tokens</text>
+  </g>
+
+  <!-- ══════════════════════ TABLE: projects ══════════════════════ -->
+  <g id="t-projects">
+    <rect x="20" y="558" width="240" height="172" rx="8" fill="#1a2535" stroke="#22c55e" stroke-width="1.5" filter="url(#sh3)"/>
+    <rect x="20" y="558" width="240" height="36" rx="8" fill="#14532d"/>
+    <rect x="20" y="578" width="240" height="16" fill="#14532d"/>
+    <rect x="30" y="567" width="10" height="10" rx="2" fill="#22c55e" opacity="0.8"/>
+    <text x="140" y="579" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">projects</text>
+    <text x="140" y="593" text-anchor="middle" font-size="8.5" fill="#86efac">TENANT-SCOPED · RLS</text>
+    <text x="32" y="614" font-size="9" fill="#fbbf24" font-weight="600">PK  id</text><text x="100" y="614" font-size="9" fill="#64748b">uuid</text>
+    <text x="32" y="628" font-size="9" fill="#60a5fa" font-weight="600">FK  tenant_id</text><text x="100" y="628" font-size="9" fill="#64748b">→ orgs.id</text>
+    <text x="32" y="642" font-size="9" fill="#94a3b8">    name</text><text x="100" y="642" font-size="9" fill="#64748b">text</text>
+    <text x="32" y="656" font-size="9" fill="#94a3b8">    description</text><text x="100" y="656" font-size="9" fill="#64748b">text  (nullable)</text>
+    <text x="32" y="670" font-size="9" fill="#94a3b8">    status</text><text x="100" y="670" font-size="9" fill="#64748b">active|archived</text>
+    <text x="32" y="684" font-size="9" fill="#94a3b8">    created_at, updated_at</text><text x="32" y="698" font-size="9" fill="#64748b">    idx(tenant_id, created_at)</text>
+    <text x="32" y="720" font-size="8" fill="#475569">quota: free=3, starter=25, pro=∞</text>
+  </g>
+
+  <!-- ══════════════════════ TABLE: refresh_tokens ══════════════════════ -->
+  <g id="t-rt">
+    <rect x="280" y="340" width="240" height="200" rx="8" fill="#1a2535" stroke="#22c55e" stroke-width="1.5" filter="url(#sh3)"/>
+    <rect x="280" y="340" width="240" height="36" rx="8" fill="#14532d"/>
+    <rect x="280" y="360" width="240" height="16" fill="#14532d"/>
+    <rect x="290" y="349" width="10" height="10" rx="2" fill="#22c55e" opacity="0.8"/>
+    <text x="400" y="361" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">refresh_tokens</text>
+    <text x="400" y="375" text-anchor="middle" font-size="8.5" fill="#86efac">TENANT-SCOPED · RLS</text>
+    <text x="292" y="396" font-size="9" fill="#fbbf24" font-weight="600">PK  id</text><text x="340" y="396" font-size="9" fill="#64748b">uuid</text>
+    <text x="292" y="410" font-size="9" fill="#60a5fa" font-weight="600">FK  tenant_id</text><text x="370" y="410" font-size="9" fill="#64748b">→ orgs.id</text>
+    <text x="292" y="424" font-size="9" fill="#60a5fa" font-weight="600">FK  user_id</text><text x="370" y="424" font-size="9" fill="#64748b">→ users.id</text>
+    <text x="292" y="438" font-size="9" fill="#f87171">    hashed_token</text><text x="380" y="438" font-size="9" fill="#64748b">UNIQUE</text>
+    <text x="292" y="452" font-size="9" fill="#94a3b8">    family_id</text><text x="370" y="452" font-size="9" fill="#64748b">uuid (rotation group)</text>
+    <text x="292" y="466" font-size="9" fill="#94a3b8">    used_at</text><text x="370" y="466" font-size="9" fill="#64748b">timestamptz (reuse detect)</text>
+    <text x="292" y="480" font-size="9" fill="#94a3b8">    revoked_at</text><text x="370" y="480" font-size="9" fill="#64748b">timestamptz (family revoke)</text>
+    <text x="292" y="494" font-size="9" fill="#94a3b8">    expires_at</text><text x="370" y="494" font-size="9" fill="#64748b">timestamptz</text>
+    <text x="292" y="522" font-size="8" fill="#475569">family reuse: 10s overlap window</text>
+  </g>
+
+  <!-- ══════════════════════ TABLE: auth_tokens ══════════════════════ -->
+  <g id="t-at">
+    <rect x="280" y="560" width="240" height="172" rx="8" fill="#1a2535" stroke="#22c55e" stroke-width="1.5" filter="url(#sh3)"/>
+    <rect x="280" y="560" width="240" height="36" rx="8" fill="#14532d"/>
+    <rect x="280" y="580" width="240" height="16" fill="#14532d"/>
+    <rect x="290" y="569" width="10" height="10" rx="2" fill="#22c55e" opacity="0.8"/>
+    <text x="400" y="581" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">auth_tokens</text>
+    <text x="400" y="595" text-anchor="middle" font-size="8.5" fill="#86efac">TENANT-SCOPED · RLS</text>
+    <text x="292" y="616" font-size="9" fill="#fbbf24" font-weight="600">PK  id</text><text x="340" y="616" font-size="9" fill="#64748b">uuid</text>
+    <text x="292" y="630" font-size="9" fill="#60a5fa" font-weight="600">FK  tenant_id</text><text x="370" y="630" font-size="9" fill="#64748b">→ orgs.id</text>
+    <text x="292" y="644" font-size="9" fill="#60a5fa" font-weight="600">FK  user_id</text><text x="370" y="644" font-size="9" fill="#64748b">→ users.id</text>
+    <text x="292" y="658" font-size="9" fill="#94a3b8">    type</text><text x="370" y="658" font-size="9" fill="#64748b">password_reset | …</text>
+    <text x="292" y="672" font-size="9" fill="#f87171">    hashed_token</text><text x="380" y="672" font-size="9" fill="#64748b">UNIQUE</text>
+    <text x="292" y="686" font-size="9" fill="#94a3b8">    expires_at</text><text x="370" y="686" font-size="9" fill="#64748b">timestamptz (1h)</text>
+    <text x="292" y="700" font-size="9" fill="#94a3b8">    consumed_at</text><text x="370" y="700" font-size="9" fill="#64748b">timestamptz</text>
+    <text x="292" y="722" font-size="8" fill="#475569">token = SHA-256(32 random bytes)</text>
+  </g>
+
+  <!-- ══════════════════════ TABLE: invitations ══════════════════════ -->
+  <g id="t-inv">
+    <rect x="540" y="340" width="240" height="172" rx="8" fill="#1a2535" stroke="#22c55e" stroke-width="1.5" filter="url(#sh3)"/>
+    <rect x="540" y="340" width="240" height="36" rx="8" fill="#14532d"/>
+    <rect x="540" y="360" width="240" height="16" fill="#14532d"/>
+    <rect x="550" y="349" width="10" height="10" rx="2" fill="#22c55e" opacity="0.8"/>
+    <text x="660" y="361" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">invitations</text>
+    <text x="660" y="375" text-anchor="middle" font-size="8.5" fill="#86efac">TENANT-SCOPED · RLS</text>
+    <text x="552" y="396" font-size="9" fill="#fbbf24" font-weight="600">PK  id</text><text x="600" y="396" font-size="9" fill="#64748b">uuid</text>
+    <text x="552" y="410" font-size="9" fill="#60a5fa" font-weight="600">FK  tenant_id</text><text x="630" y="410" font-size="9" fill="#64748b">→ orgs.id</text>
+    <text x="552" y="424" font-size="9" fill="#94a3b8">    email</text><text x="600" y="424" font-size="9" fill="#64748b">text</text>
+    <text x="552" y="438" font-size="9" fill="#94a3b8">    role</text><text x="600" y="438" font-size="9" fill="#64748b">owner|admin|member</text>
+    <text x="552" y="452" font-size="9" fill="#f87171">    hashed_token</text><text x="640" y="452" font-size="9" fill="#64748b">UNIQUE</text>
+    <text x="552" y="466" font-size="9" fill="#94a3b8">    expires_at</text><text x="630" y="466" font-size="9" fill="#64748b">timestamptz (7d)</text>
+    <text x="552" y="480" font-size="9" fill="#94a3b8">    consumed_at</text><text x="630" y="480" font-size="9" fill="#64748b">timestamptz</text>
+    <text x="552" y="502" font-size="8" fill="#475569">created by admin, accepted → new user</text>
+  </g>
+
+  <!-- ══════════════════════ TABLE: api_keys ══════════════════════ -->
+  <g id="t-ak">
+    <rect x="540" y="540" width="240" height="172" rx="8" fill="#1a2535" stroke="#22c55e" stroke-width="1.5" filter="url(#sh3)"/>
+    <rect x="540" y="540" width="240" height="36" rx="8" fill="#14532d"/>
+    <rect x="540" y="560" width="240" height="16" fill="#14532d"/>
+    <rect x="550" y="549" width="10" height="10" rx="2" fill="#22c55e" opacity="0.8"/>
+    <text x="660" y="561" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">api_keys</text>
+    <text x="660" y="575" text-anchor="middle" font-size="8.5" fill="#86efac">TENANT-SCOPED · RLS</text>
+    <text x="552" y="596" font-size="9" fill="#fbbf24" font-weight="600">PK  id</text><text x="600" y="596" font-size="9" fill="#64748b">uuid</text>
+    <text x="552" y="610" font-size="9" fill="#60a5fa" font-weight="600">FK  tenant_id</text><text x="630" y="610" font-size="9" fill="#64748b">→ orgs.id</text>
+    <text x="552" y="624" font-size="9" fill="#94a3b8">    name</text><text x="600" y="624" font-size="9" fill="#64748b">text</text>
+    <text x="552" y="638" font-size="9" fill="#f87171">    hashed_key</text><text x="630" y="638" font-size="9" fill="#64748b">UNIQUE (SHA-256)</text>
+    <text x="552" y="652" font-size="9" fill="#94a3b8">    last_used_at</text><text x="640" y="652" font-size="9" fill="#64748b">timestamptz</text>
+    <text x="552" y="666" font-size="9" fill="#94a3b8">    revoked_at</text><text x="630" y="666" font-size="9" fill="#64748b">timestamptz</text>
+    <text x="552" y="680" font-size="9" fill="#94a3b8">    created_at</text><text x="630" y="680" font-size="9" fill="#64748b">timestamptz</text>
+    <text x="552" y="702" font-size="8" fill="#475569">prefix: tf_  ·  plaintext returned once</text>
+  </g>
+
+  <!-- ══════════════════════ TABLE: subscriptions ══════════════════════ -->
+  <g id="t-sub">
+    <rect x="800" y="340" width="260" height="186" rx="8" fill="#1a2535" stroke="#22c55e" stroke-width="1.5" filter="url(#sh3)"/>
+    <rect x="800" y="340" width="260" height="36" rx="8" fill="#14532d"/>
+    <rect x="800" y="360" width="260" height="16" fill="#14532d"/>
+    <rect x="810" y="349" width="10" height="10" rx="2" fill="#22c55e" opacity="0.8"/>
+    <text x="930" y="361" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">subscriptions</text>
+    <text x="930" y="375" text-anchor="middle" font-size="8.5" fill="#86efac">TENANT-SCOPED · RLS</text>
+    <text x="812" y="396" font-size="9" fill="#fbbf24" font-weight="600">PK  id</text><text x="856" y="396" font-size="9" fill="#64748b">uuid</text>
+    <text x="812" y="410" font-size="9" fill="#60a5fa" font-weight="600">FK  tenant_id</text><text x="886" y="410" font-size="9" fill="#64748b">→ orgs.id</text>
+    <text x="812" y="424" font-size="9" fill="#94a3b8">    stripe_sub_id</text><text x="886" y="424" font-size="9" fill="#64748b">text  UNIQUE</text>
+    <text x="812" y="438" font-size="9" fill="#94a3b8">    status</text><text x="886" y="438" font-size="9" fill="#64748b">active|trialing|past_due|canceled</text>
+    <text x="812" y="452" font-size="9" fill="#94a3b8">    plan</text><text x="886" y="452" font-size="9" fill="#64748b">free|starter|pro</text>
+    <text x="812" y="466" font-size="9" fill="#94a3b8">    current_period_end</text><text x="886" y="466" font-size="9" fill="#64748b">timestamptz</text>
+    <text x="812" y="480" font-size="9" fill="#94a3b8">    updated_at</text><text x="886" y="480" font-size="9" fill="#64748b">timestamptz</text>
+    <text x="812" y="510" font-size="8" fill="#475569">upserted on Stripe webhook · idx(tenant_id, status)</text>
+  </g>
+
+  <!-- ══════════════════════ TABLE: audit_log ══════════════════════ -->
+  <g id="t-al">
+    <rect x="800" y="546" width="260" height="172" rx="8" fill="#1a2535" stroke="#22c55e" stroke-width="1.5" filter="url(#sh3)"/>
+    <rect x="800" y="546" width="260" height="36" rx="8" fill="#14532d"/>
+    <rect x="800" y="566" width="260" height="16" fill="#14532d"/>
+    <rect x="810" y="555" width="10" height="10" rx="2" fill="#22c55e" opacity="0.8"/>
+    <text x="930" y="567" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">audit_log</text>
+    <text x="930" y="581" text-anchor="middle" font-size="8.5" fill="#86efac">TENANT-SCOPED · RLS</text>
+    <text x="812" y="602" font-size="9" fill="#fbbf24" font-weight="600">PK  id</text><text x="856" y="602" font-size="9" fill="#64748b">uuid</text>
+    <text x="812" y="616" font-size="9" fill="#60a5fa" font-weight="600">FK  tenant_id</text><text x="886" y="616" font-size="9" fill="#64748b">→ orgs.id</text>
+    <text x="812" y="630" font-size="9" fill="#94a3b8">    actor_user_id</text><text x="886" y="630" font-size="9" fill="#64748b">uuid (nullable)</text>
+    <text x="812" y="644" font-size="9" fill="#94a3b8">    action</text><text x="886" y="644" font-size="9" fill="#64748b">text  (e.g. billing.synced)</text>
+    <text x="812" y="658" font-size="9" fill="#94a3b8">    target</text><text x="886" y="658" font-size="9" fill="#64748b">text  (nullable)</text>
+    <text x="812" y="672" font-size="9" fill="#94a3b8">    metadata</text><text x="886" y="672" font-size="9" fill="#64748b">jsonb</text>
+    <text x="812" y="686" font-size="9" fill="#94a3b8">    created_at</text><text x="886" y="686" font-size="9" fill="#64748b">timestamptz</text>
+    <text x="812" y="708" font-size="8" fill="#475569">idx(tenant_id, created_at)  · append-only</text>
+  </g>
+
+  <!-- ══════════════════════ TABLE: processed_webhooks (global) ══════════════════════ -->
+  <g id="t-pw">
+    <rect x="800" y="86" width="260" height="106" rx="8" fill="#1a2535" stroke="#475569" stroke-width="1.5" filter="url(#sh3)"/>
+    <rect x="800" y="86" width="260" height="36" rx="8" fill="#1e293b"/>
+    <rect x="800" y="106" width="260" height="16" fill="#1e293b"/>
+    <text x="930" y="107" text-anchor="middle" font-size="12" font-weight="700" fill="#cbd5e1">processed_webhooks</text>
+    <text x="930" y="121" text-anchor="middle" font-size="8.5" fill="#64748b">GLOBAL TABLE · no RLS · dedup ledger</text>
+    <text x="812" y="142" font-size="9" fill="#fbbf24" font-weight="600">PK  event_id</text><text x="880" y="142" font-size="9" fill="#64748b">text  UNIQUE</text>
+    <text x="812" y="156" font-size="9" fill="#94a3b8">    processed_at</text><text x="900" y="156" font-size="9" fill="#64748b">timestamptz</text>
+    <text x="812" y="180" font-size="8" fill="#475569">INSERT before work · inside tx · 23505 = duplicate</text>
+  </g>
+
+  <!-- ══════════════════════ FK LINES ══════════════════════ -->
+  <!-- orgs → users -->
+  <line x1="460" y1="195" x2="260" y2="430" stroke="#0ea5e9" stroke-width="1.5" marker-end="url(#fkBlue)" opacity="0.7"/>
+  <!-- orgs → projects -->
+  <line x1="460" y1="240" x2="260" y2="640" stroke="#0ea5e9" stroke-width="1.5" marker-end="url(#fkBlue)" opacity="0.7"/>
+  <!-- orgs → refresh_tokens -->
+  <line x1="520" y1="195" x2="520" y2="340" stroke="#0ea5e9" stroke-width="1.5" marker-end="url(#fkBlue)" opacity="0.7"/>
+  <!-- orgs → auth_tokens -->
+  <line x1="540" y1="260" x2="520" y2="560" stroke="#0ea5e9" stroke-width="1.5" marker-end="url(#fkBlue)" opacity="0.7"/>
+  <!-- orgs → invitations -->
+  <line x1="660" y1="288" x2="660" y2="340" stroke="#0ea5e9" stroke-width="1.5" marker-end="url(#fkBlue)" opacity="0.7"/>
+  <!-- orgs → api_keys -->
+  <line x1="680" y1="288" x2="680" y2="540" stroke="#0ea5e9" stroke-width="1.5" marker-end="url(#fkBlue)" opacity="0.7"/>
+  <!-- orgs → subscriptions -->
+  <line x1="740" y1="195" x2="800" y2="400" stroke="#0ea5e9" stroke-width="1.5" marker-end="url(#fkBlue)" opacity="0.7"/>
+  <!-- orgs → audit_log -->
+  <line x1="740" y1="240" x2="800" y2="610" stroke="#0ea5e9" stroke-width="1.5" marker-end="url(#fkBlue)" opacity="0.7"/>
+  <!-- users → refresh_tokens -->
+  <line x1="260" y1="450" x2="280" y2="445" stroke="#22c55e" stroke-width="1" stroke-dasharray="4,2" marker-end="url(#fk)" opacity="0.6"/>
+  <!-- users → auth_tokens -->
+  <line x1="140" y1="526" x2="320" y2="600" stroke="#22c55e" stroke-width="1" stroke-dasharray="4,2" marker-end="url(#fk)" opacity="0.6"/>
+
+  <!-- RLS note box -->
+  <rect x="540" y="742" width="620" height="58" rx="6" fill="#0d1f1a" stroke="#166534" stroke-width="1"/>
+  <text x="556" y="760" font-size="9" font-weight="600" fill="#4ade80">RLS Policy (all tenant-scoped tables):</text>
+  <text x="556" y="776" font-size="8.5" fill="#86efac">  USING (tenant_id = NULLIF(current_setting('app.current_tenant_id', true), '')::uuid)</text>
+  <text x="556" y="790" font-size="8.5" fill="#475569">  Unset GUC → NULL → zero rows returned (fail-closed, not an error).  App role: NOSUPERUSER NOBYPASSRLS.</text>
+</svg>

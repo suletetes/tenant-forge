@@ -1,0 +1,145 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 740" width="980" height="740" font-family="'Segoe UI', system-ui, sans-serif">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0f1117"/><stop offset="1" stop-color="#1a1d2e"/></linearGradient>
+    <filter id="shadow2"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.5"/></filter>
+    <marker id="arrowD" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 z" fill="#475569"/></marker>
+    <marker id="arrowW" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 z" fill="#f8fafc"/></marker>
+  </defs>
+
+  <rect width="980" height="740" fill="url(#bg2)"/>
+
+  <!-- Title -->
+  <text x="490" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#f1f5f9">TenantForge — HTTP Request Lifecycle</text>
+  <text x="490" y="56" text-anchor="middle" font-size="12" fill="#64748b">Fastify middleware stack  ·  every authenticated tenant-scoped request</text>
+
+  <!-- Left column header: stages -->
+  <rect x="20" y="72" width="200" height="30" rx="6" fill="#1e2433" stroke="#334155" stroke-width="1"/>
+  <text x="120" y="91" text-anchor="middle" font-size="11" font-weight="600" fill="#94a3b8">STAGE</text>
+  <rect x="240" y="72" width="460" height="30" rx="6" fill="#1e2433" stroke="#334155" stroke-width="1"/>
+  <text x="470" y="91" text-anchor="middle" font-size="11" font-weight="600" fill="#94a3b8">WHAT HAPPENS</text>
+  <rect x="720" y="72" width="240" height="30" rx="6" fill="#1e2433" stroke="#334155" stroke-width="1"/>
+  <text x="840" y="91" text-anchor="middle" font-size="11" font-weight="600" fill="#94a3b8">CODE LOCATION</text>
+
+  <!-- ── Stage rows ── -->
+
+  <!-- 1. TCP / TLS -->
+  <rect x="20" y="116" width="200" height="56" rx="6" fill="#1a2535" stroke="#0ea5e9" stroke-width="1.5" filter="url(#shadow2)"/>
+  <text x="120" y="138" text-anchor="middle" font-size="10" font-weight="700" fill="#38bdf8">① TCP / TLS</text>
+  <text x="120" y="154" text-anchor="middle" font-size="9" fill="#64748b">WAF → ALB</text>
+  <rect x="240" y="116" width="460" height="56" rx="6" fill="#0c1a2e" stroke="#1e3a5f" stroke-width="1"/>
+  <text x="470" y="136" text-anchor="middle" font-size="9" fill="#94a3b8">WAFv2 inspects request against 3 managed rule groups (OWASP, SQLi, BadInputs).</text>
+  <text x="470" y="150" text-anchor="middle" font-size="9" fill="#94a3b8">ALB terminates TLS 1.3, sets X-Forwarded-For. Blocked by WAF → 403 before Fastify.</text>
+  <rect x="720" y="116" width="240" height="56" rx="6" fill="#0c1a2e" stroke="#1e3a5f" stroke-width="1"/>
+  <text x="840" y="140" text-anchor="middle" font-size="8.5" fill="#64748b">infra/modules/waf</text>
+  <text x="840" y="154" text-anchor="middle" font-size="8.5" fill="#64748b">infra/modules/alb</text>
+
+  <!-- connector -->
+  <line x1="120" y1="172" x2="120" y2="186" stroke="#334155" stroke-width="1.5" marker-end="url(#arrowD)"/>
+
+  <!-- 2. onRequest -->
+  <rect x="20" y="186" width="200" height="66" rx="6" fill="#1a2535" stroke="#8b5cf6" stroke-width="1.5" filter="url(#shadow2)"/>
+  <text x="120" y="208" text-anchor="middle" font-size="10" font-weight="700" fill="#a78bfa">② onRequest hooks</text>
+  <text x="120" y="222" text-anchor="middle" font-size="9" fill="#64748b">CORS + request-id</text>
+  <text x="120" y="236" text-anchor="middle" font-size="9" fill="#64748b">(fires on every request)</text>
+  <rect x="240" y="186" width="460" height="66" rx="6" fill="#0c1a2e" stroke="#1e3a5f" stroke-width="1"/>
+  <text x="470" y="206" text-anchor="middle" font-size="9" fill="#94a3b8">Hook 1: reply.header('x-request-id', req.id)   (genReqId = X-Request-Id header ∥ randomUUID)</text>
+  <text x="470" y="220" text-anchor="middle" font-size="9" fill="#94a3b8">Hook 2: CORS headers injected (access-control-allow-*). OPTIONS → 204 immediately.</text>
+  <text x="470" y="234" text-anchor="middle" font-size="9" fill="#94a3b8">Pino logger: authorization, cookie, *.password, *.token   →  [REDACTED] in all log lines.</text>
+  <rect x="720" y="186" width="240" height="66" rx="6" fill="#0c1a2e" stroke="#1e3a5f" stroke-width="1"/>
+  <text x="840" y="213" text-anchor="middle" font-size="8.5" fill="#64748b">src/app.ts</text>
+  <text x="840" y="227" text-anchor="middle" font-size="8.5" fill="#64748b">addHook('onRequest', …)</text>
+
+  <line x1="120" y1="252" x2="120" y2="266" stroke="#334155" stroke-width="1.5" marker-end="url(#arrowD)"/>
+
+  <!-- 3. preHandler[0] IP rate limit -->
+  <rect x="20" y="266" width="200" height="66" rx="6" fill="#1a2535" stroke="#f59e0b" stroke-width="1.5" filter="url(#shadow2)"/>
+  <text x="120" y="288" text-anchor="middle" font-size="10" font-weight="700" fill="#fbbf24">③ IP Rate Limit</text>
+  <text x="120" y="302" text-anchor="middle" font-size="9" fill="#64748b">preHandler[0]</text>
+  <text x="120" y="316" text-anchor="middle" font-size="9" fill="#64748b">auth routes only</text>
+  <rect x="240" y="266" width="460" height="66" rx="6" fill="#0c1a2e" stroke="#1e3a5f" stroke-width="1"/>
+  <text x="470" y="286" text-anchor="middle" font-size="9" fill="#94a3b8">Key: ratelimit:ip:{req.ip}:{class}   (trustProxy=true → X-Forwarded-For)</text>
+  <text x="470" y="300" text-anchor="middle" font-size="9" fill="#94a3b8">credential class (login/refresh/reset): 10 burst · 10/min.   general (signup): 30 burst · 30/min.</text>
+  <text x="470" y="314" text-anchor="middle" font-size="9" fill="#94a3b8">On limit: 429 + Retry-After.   Redis down: fail-CLOSED (503) credential, fail-OPEN GET.</text>
+  <rect x="720" y="266" width="240" height="66" rx="6" fill="#0c1a2e" stroke="#1e3a5f" stroke-width="1"/>
+  <text x="840" y="293" text-anchor="middle" font-size="8.5" fill="#64748b">src/ratelimit/middleware.ts</text>
+  <text x="840" y="307" text-anchor="middle" font-size="8.5" fill="#64748b">makeIpRateLimiter()</text>
+
+  <line x1="120" y1="332" x2="120" y2="346" stroke="#334155" stroke-width="1.5" marker-end="url(#arrowD)"/>
+
+  <!-- 4. preHandler[1] authenticate -->
+  <rect x="20" y="346" width="200" height="76" rx="6" fill="#1a2535" stroke="#22c55e" stroke-width="1.5" filter="url(#shadow2)"/>
+  <text x="120" y="368" text-anchor="middle" font-size="10" font-weight="700" fill="#4ade80">④ authenticate</text>
+  <text x="120" y="382" text-anchor="middle" font-size="9" fill="#64748b">preHandler[1]</text>
+  <text x="120" y="396" text-anchor="middle" font-size="9" fill="#64748b">sets req.auth</text>
+  <text x="120" y="410" text-anchor="middle" font-size="9" fill="#64748b">JWT ∥ API Key</text>
+  <rect x="240" y="346" width="460" height="76" rx="6" fill="#0c1a2e" stroke="#1e3a5f" stroke-width="1"/>
+  <text x="470" y="366" text-anchor="middle" font-size="9" fill="#94a3b8">X-Api-Key header present → authenticateApiKey(): SHA-256 hash lookup on ownerPool,</text>
+  <text x="470" y="380" text-anchor="middle" font-size="9" fill="#94a3b8">check revoked_at, fire-and-forget last_used_at bump. Sets role='member' always.</text>
+  <text x="470" y="394" text-anchor="middle" font-size="9" fill="#94a3b8">Otherwise: Authorization: Bearer &lt;jwt&gt; → TokenService.verifyAccessToken() (HS256 / jose).</text>
+  <text x="470" y="408" text-anchor="middle" font-size="9" fill="#94a3b8">Extracts { sub, tenant_id, role }. Missing/expired → 401 before handler runs.</text>
+  <rect x="720" y="346" width="240" height="76" rx="6" fill="#0c1a2e" stroke="#1e3a5f" stroke-width="1"/>
+  <text x="840" y="376" text-anchor="middle" font-size="8.5" fill="#64748b">src/middleware/tenant.ts</text>
+  <text x="840" y="390" text-anchor="middle" font-size="8.5" fill="#64748b">makeAuthenticate()</text>
+  <text x="840" y="404" text-anchor="middle" font-size="8.5" fill="#64748b">src/apikeys/apikey.service.ts</text>
+
+  <line x1="120" y1="422" x2="120" y2="436" stroke="#334155" stroke-width="1.5" marker-end="url(#arrowD)"/>
+
+  <!-- 5. preHandler[2] tenant rate limit -->
+  <rect x="20" y="436" width="200" height="56" rx="6" fill="#1a2535" stroke="#f59e0b" stroke-width="1.5" filter="url(#shadow2)"/>
+  <text x="120" y="458" text-anchor="middle" font-size="10" font-weight="700" fill="#fbbf24">⑤ Tenant Rate Limit</text>
+  <text x="120" y="472" text-anchor="middle" font-size="9" fill="#64748b">preHandler[2]</text>
+  <text x="120" y="486" text-anchor="middle" font-size="9" fill="#64748b">plan-based bucket</text>
+  <rect x="240" y="436" width="460" height="56" rx="6" fill="#0c1a2e" stroke="#1e3a5f" stroke-width="1"/>
+  <text x="470" y="456" text-anchor="middle" font-size="9" fill="#94a3b8">Key: ratelimit:{req.auth.tenantId}.   Plan fetched from organizations table.</text>
+  <text x="470" y="470" text-anchor="middle" font-size="9" fill="#94a3b8">free:60/1s · starter:300/5s · pro:1000/16.7s.   Sets X-RateLimit-* headers on every response.</text>
+  <rect x="720" y="436" width="240" height="56" rx="6" fill="#0c1a2e" stroke="#1e3a5f" stroke-width="1"/>
+  <text x="840" y="456" text-anchor="middle" font-size="8.5" fill="#64748b">src/ratelimit/middleware.ts</text>
+  <text x="840" y="470" text-anchor="middle" font-size="8.5" fill="#64748b">makeTenantRateLimiter()</text>
+
+  <line x1="120" y1="492" x2="120" y2="506" stroke="#334155" stroke-width="1.5" marker-end="url(#arrowD)"/>
+
+  <!-- 6. withTenant.open -->
+  <rect x="20" y="506" width="200" height="76" rx="6" fill="#1a2535" stroke="#dc2626" stroke-width="1.5" filter="url(#shadow2)"/>
+  <text x="120" y="528" text-anchor="middle" font-size="10" font-weight="700" fill="#f87171">⑥ withTenant.open</text>
+  <text x="120" y="542" text-anchor="middle" font-size="9" fill="#64748b">preHandler[3]</text>
+  <text x="120" y="556" text-anchor="middle" font-size="9" fill="#64748b">GUC + RLS context</text>
+  <text x="120" y="570" text-anchor="middle" font-size="9" fill="#64748b">sets req.db</text>
+  <rect x="240" y="506" width="460" height="76" rx="6" fill="#0c1a2e" stroke="#1e3a5f" stroke-width="1"/>
+  <text x="470" y="524" text-anchor="middle" font-size="9" fill="#94a3b8">appPool.connect() → BEGIN → set_config('app.current_tenant_id', $id, true)  [txn-local]</text>
+  <text x="470" y="538" text-anchor="middle" font-size="9" fill="#94a3b8">SELECT deleted_at FROM organizations WHERE id=$id → 403 if org is soft-deleted.</text>
+  <text x="470" y="552" text-anchor="middle" font-size="9" fill="#94a3b8">Attaches req.db = pg.PoolClient.  On error here: ROLLBACK + release + rethrow.</text>
+  <text x="470" y="566" text-anchor="middle" font-size="9" fill="#94a3b8">RLS policies on every table now auto-filter to this tenant with no extra WHERE clause.</text>
+  <rect x="720" y="506" width="240" height="76" rx="6" fill="#0c1a2e" stroke="#1e3a5f" stroke-width="1"/>
+  <text x="840" y="533" text-anchor="middle" font-size="8.5" fill="#64748b">src/middleware/tenant.ts</text>
+  <text x="840" y="547" text-anchor="middle" font-size="8.5" fill="#64748b">makeWithTenant()</text>
+  <text x="840" y="561" text-anchor="middle" font-size="8.5" fill="#64748b">src/db/rls.ts</text>
+
+  <line x1="120" y1="582" x2="120" y2="596" stroke="#334155" stroke-width="1.5" marker-end="url(#arrowD)"/>
+
+  <!-- 7. Route handler -->
+  <rect x="20" y="596" width="200" height="56" rx="6" fill="#1a2535" stroke="#0ea5e9" stroke-width="1.5" filter="url(#shadow2)"/>
+  <text x="120" y="618" text-anchor="middle" font-size="10" font-weight="700" fill="#38bdf8">⑦ Route handler</text>
+  <text x="120" y="632" text-anchor="middle" font-size="9" fill="#64748b">business logic</text>
+  <text x="120" y="646" text-anchor="middle" font-size="9" fill="#64748b">uses req.db (RLS)</text>
+  <rect x="240" y="596" width="460" height="56" rx="6" fill="#0c1a2e" stroke="#1e3a5f" stroke-width="1"/>
+  <text x="470" y="616" text-anchor="middle" font-size="9" fill="#94a3b8">Handler calls service functions (projects.service, billing.service, etc.) via req.db.</text>
+  <text x="470" y="630" text-anchor="middle" font-size="9" fill="#94a3b8">Zod validates body/params before handler runs. RBAC checked via requireRole(req.auth.role).</text>
+  <rect x="720" y="596" width="240" height="56" rx="6" fill="#0c1a2e" stroke="#1e3a5f" stroke-width="1"/>
+  <text x="840" y="616" text-anchor="middle" font-size="8.5" fill="#64748b">src/routes/v1/*.routes.ts</text>
+  <text x="840" y="630" text-anchor="middle" font-size="8.5" fill="#64748b">src/*/  *.service.ts</text>
+
+  <line x1="120" y1="652" x2="120" y2="666" stroke="#334155" stroke-width="1.5" marker-end="url(#arrowD)"/>
+
+  <!-- 8. onSend commit -->
+  <rect x="20" y="666" width="200" height="56" rx="6" fill="#1a2535" stroke="#22c55e" stroke-width="1.5" filter="url(#shadow2)"/>
+  <text x="120" y="688" text-anchor="middle" font-size="10" font-weight="700" fill="#4ade80">⑧ onSend / onError</text>
+  <text x="120" y="702" text-anchor="middle" font-size="9" fill="#64748b">COMMIT · ROLLBACK</text>
+  <text x="120" y="716" text-anchor="middle" font-size="9" fill="#64748b">RESET GUC · release</text>
+  <rect x="240" y="666" width="460" height="56" rx="6" fill="#0c1a2e" stroke="#1e3a5f" stroke-width="1"/>
+  <text x="470" y="686" text-anchor="middle" font-size="9" fill="#94a3b8">onSend: status &lt; 400 → COMMIT; else → ROLLBACK.  RESET app.current_tenant_id.  release().</text>
+  <text x="470" y="700" text-anchor="middle" font-size="9" fill="#94a3b8">onError: always ROLLBACK. RESET. release(). Error handler maps to consistent envelope.</text>
+  <text x="470" y="714" text-anchor="middle" font-size="9" fill="#64748b">AppError→structured  ·  Zod validation→400  ·  unknown→500 (no stack leak)</text>
+  <rect x="720" y="666" width="240" height="56" rx="6" fill="#0c1a2e" stroke="#1e3a5f" stroke-width="1"/>
+  <text x="840" y="690" text-anchor="middle" font-size="8.5" fill="#64748b">src/middleware/tenant.ts</text>
+  <text x="840" y="704" text-anchor="middle" font-size="8.5" fill="#64748b">src/app.ts  setErrorHandler</text>
+</svg>
