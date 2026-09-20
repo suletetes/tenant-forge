@@ -1,229 +1,326 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 820" width="1200" height="820" font-family="'Segoe UI', system-ui, sans-serif">
-  <defs>
-    <linearGradient id="bg3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0f1117"/><stop offset="1" stop-color="#111827"/></linearGradient>
-    <filter id="sh3"><feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000" flood-opacity="0.6"/></filter>
-    <marker id="fk" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,0 L0,10 L10,5 z" fill="#64748b"/></marker>
-    <marker id="fkBlue" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,0 L0,10 L10,5 z" fill="#0ea5e9"/></marker>
-  </defs>
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 900" width="1280" height="900"
+  font-family="'Segoe UI',system-ui,sans-serif">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0%" stop-color="#0d1117"/><stop offset="100%" stop-color="#111827"/>
+  </linearGradient>
+  <filter id="sh"><feDropShadow dx="0" dy="3" stdDeviation="6" flood-color="#000" flood-opacity="0.5"/></filter>
+  <!-- PG icon reusable -->
+  <symbol id="pg-icon" viewBox="0 0 24 24">
+    <path d="M23.5594 14.7228a.5269.5269 0 0 0-.0563-.1191c-.139-.2632-.4768-.3418-1.0074-.2321-1.6533.3411-2.2935.1312-2.5256-.0191 1.342-2.0482 2.445-4.522 3.0411-6.8297.2714-1.0507.7982-3.5237.1222-4.7316a1.5641 1.5641 0 0 0-.1509-.235C21.6931.9086 19.8007.0248 17.5099.0005c-1.4947-.0158-2.7705.3461-3.1161.4794a9.449 9.449 0 0 0-.5159-.0816 8.044 8.044 0 0 0-1.3114-.1278c-1.1822-.0184-2.2038.2642-3.0498.8406-.8573-.3211-4.7888-1.645-7.2219.0788C.9359 2.1526.3086 3.8733.4302 6.3043c.0409.818.5069 3.334 1.2423 5.7436.4598 1.5065.9387 2.7019 1.4334 3.582.553.9942 1.1259 1.5933 1.7143 1.7895.4474.1491 1.1327.1441 1.8581-.7279.8012-.9635 1.5903-1.8258 1.9446-2.2069.4351.2355.9064.3625 1.39.3772a.0569.0569 0 0 0 .0004.0041 11.0312 11.0312 0 0 0-.2472.3054c-.3389.4302-.4094.5197-1.5002.7443-.3102.064-1.1344.2339-1.1464.8115-.0025.1224.0329.2309.0919.3268.2269.4231.9216.6097 1.015.6331 1.3345.3335 2.5044.092 3.3714-.6787-.017 2.231.0775 4.4174.3454 5.0874.2212.5529.7618 1.9045 2.4692 1.9043.2505 0 .5263-.0291.8296-.0941 1.7819-.3821 2.5557-1.1696 2.855-2.9059.1503-.8707.4016-2.8753.5388-4.1012.0169-.0703.0357-.1207.057-.1362.0007-.0005.0697-.0471.4272.0307a.3673.3673 0 0 0 .0443.0068l.2539.0223.0149.001c.8468.0384 1.9114-.1426 2.5312-.4308.6438-.2988 1.8057-1.0323 1.5951-1.6698z"/>
+  </symbol>
+</defs>
+<rect width="1280" height="900" fill="url(#bg)"/>
 
-  <rect width="1200" height="820" fill="url(#bg3)"/>
+<!-- title -->
+<rect x="0" y="0" width="1280" height="60" fill="#111827" opacity="0.95"/>
+<text x="640" y="24" text-anchor="middle" font-size="19" font-weight="700" fill="#f1f5f9" letter-spacing="0.3">TenantForge</text>
+<text x="640" y="46" text-anchor="middle" font-size="11" fill="#64748b" letter-spacing="2">DATA MODEL  ·  10 TABLES  ·  POSTGRESQL ROW LEVEL SECURITY</text>
 
-  <!-- Title -->
-  <text x="600" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#f1f5f9">TenantForge — Data Model</text>
-  <text x="600" y="56" text-anchor="middle" font-size="12" fill="#64748b">PostgreSQL · Drizzle ORM · Row Level Security on all tenant-scoped tables</text>
+<!-- badges -->
+<rect x="20" y="70" width="200" height="28" rx="6" fill="#0d2010" stroke="#15803d" stroke-width="1.5"/>
+<rect x="28" y="78" width="12" height="12" rx="2" fill="#22c55e"/>
+<text x="46" y="89" font-size="9" font-weight="700" fill="#4ade80">TENANT-SCOPED</text>
+<text x="116" y="89" font-size="8.5" fill="#64748b"> · RLS FORCE enabled</text>
+<rect x="236" y="70" width="170" height="28" rx="6" fill="#111827" stroke="#334155" stroke-width="1.5"/>
+<rect x="244" y="78" width="12" height="12" rx="2" fill="#475569"/>
+<text x="262" y="89" font-size="9" font-weight="700" fill="#94a3b8">GLOBAL</text>
+<text x="305" y="89" font-size="8.5" fill="#64748b"> · no RLS</text>
 
-  <!-- RLS legend -->
-  <rect x="20" y="70" width="240" height="34" rx="6" fill="#0d1f1a" stroke="#166534" stroke-width="1.5"/>
-  <rect x="34" y="79" width="12" height="12" rx="2" fill="#22c55e" opacity="0.8"/>
-  <text x="52" y="90" font-size="9" fill="#4ade80" font-weight="600">TENANT-SCOPED</text>
-  <text x="52" y="100" font-size="8.5" fill="#64748b">RLS ENABLE + FORCE on table</text>
-  <rect x="280" y="70" width="200" height="34" rx="6" fill="#1a1d2e" stroke="#334155" stroke-width="1.5"/>
-  <rect x="294" y="79" width="12" height="12" rx="2" fill="#475569" opacity="0.8"/>
-  <text x="312" y="90" font-size="9" fill="#94a3b8" font-weight="600">GLOBAL TABLE</text>
-  <text x="312" y="100" font-size="8.5" fill="#64748b">No RLS — owner pool access</text>
+<!-- PK / FK legend -->
+<rect x="420" y="70" width="400" height="28" rx="6" fill="#111827" stroke="#334155" stroke-width="1"/>
+<text x="432" y="89" font-size="8.5" fill="#fbbf24" font-weight="600">PK</text><text x="450" y="89" font-size="8.5" fill="#64748b"> primary key  </text>
+<text x="530" y="89" font-size="8.5" fill="#60a5fa" font-weight="600">FK</text><text x="548" y="89" font-size="8.5" fill="#64748b"> foreign key  </text>
+<text x="620" y="89" font-size="8.5" fill="#f87171" font-weight="600">🔒</text><text x="636" y="89" font-size="8.5" fill="#64748b"> hashed (never plaintext)</text>
+<text x="780" y="89" font-size="8.5" fill="#94a3b8" font-style="italic">idx</text><text x="796" y="89" font-size="8.5" fill="#64748b"> index</text>
 
-  <!-- ══════════════════════ TABLE: organizations (center) ══════════════════════ -->
-  <g id="t-orgs">
-    <rect x="460" y="88" width="280" height="200" rx="8" fill="#1a2535" stroke="#0ea5e9" stroke-width="2" filter="url(#sh3)"/>
-    <!-- header -->
-    <rect x="460" y="88" width="280" height="36" rx="8" fill="#0e4675"/>
-    <rect x="460" y="108" width="280" height="16" fill="#0e4675"/>
-    <text x="600" y="110" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">organizations</text>
-    <text x="600" y="123" text-anchor="middle" font-size="8.5" fill="#93c5fd">GLOBAL TABLE · no RLS</text>
-    <!-- cols -->
-    <text x="472" y="142" font-size="9" fill="#fbbf24" font-weight="600">PK  id</text><text x="580" y="142" font-size="9" fill="#64748b">uuid  DEFAULT gen_random_uuid()</text>
-    <text x="472" y="156" font-size="9" fill="#94a3b8">    name</text><text x="580" y="156" font-size="9" fill="#64748b">text  NOT NULL</text>
-    <text x="472" y="170" font-size="9" fill="#94a3b8">    slug</text><text x="580" y="170" font-size="9" fill="#64748b">text  UNIQUE NOT NULL</text>
-    <text x="472" y="184" font-size="9" fill="#94a3b8">    plan</text><text x="580" y="184" font-size="9" fill="#64748b">text  DEFAULT 'free'</text>
-    <text x="472" y="198" font-size="9" fill="#94a3b8">    stripe_customer_id</text><text x="580" y="198" font-size="9" fill="#64748b">text  (nullable)</text>
-    <text x="472" y="212" font-size="9" fill="#94a3b8">    created_at</text><text x="580" y="212" font-size="9" fill="#64748b">timestamptz</text>
-    <text x="472" y="226" font-size="9" fill="#f87171">    deleted_at</text><text x="580" y="226" font-size="9" fill="#64748b">timestamptz  (soft-delete)</text>
-    <!-- badge -->
-    <rect x="476" y="269" width="248" height="14" rx="3" fill="#0c2a3f"/>
-    <text x="600" y="279" text-anchor="middle" font-size="7.5" fill="#38bdf8">All tenant-scoped tables have FK → organizations.id</text>
-  </g>
+<!-- ═══════════════════════════════════════════
+     TABLE HELPER MACRO / each table is a <g>
+     ═══════════════════════════════════════════ -->
 
-  <!-- ══════════════════════ TABLE: users ══════════════════════ -->
-  <g id="t-users">
-    <rect x="20" y="340" width="240" height="186" rx="8" fill="#1a2535" stroke="#22c55e" stroke-width="1.5" filter="url(#sh3)"/>
-    <rect x="20" y="340" width="240" height="36" rx="8" fill="#14532d"/>
-    <rect x="20" y="360" width="240" height="16" fill="#14532d"/>
-    <rect x="30" y="349" width="10" height="10" rx="2" fill="#22c55e" opacity="0.8"/>
-    <text x="140" y="361" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">users</text>
-    <text x="140" y="375" text-anchor="middle" font-size="8.5" fill="#86efac">TENANT-SCOPED · RLS</text>
-    <text x="32" y="396" font-size="9" fill="#fbbf24" font-weight="600">PK  id</text><text x="100" y="396" font-size="9" fill="#64748b">uuid</text>
-    <text x="32" y="410" font-size="9" fill="#60a5fa" font-weight="600">FK  tenant_id</text><text x="100" y="410" font-size="9" fill="#64748b">→ orgs.id</text>
-    <text x="32" y="424" font-size="9" fill="#94a3b8">    email</text><text x="100" y="424" font-size="9" fill="#64748b">text  UNIQUE(t,e)</text>
-    <text x="32" y="438" font-size="9" fill="#f87171">    password_hash</text><text x="130" y="438" font-size="9" fill="#64748b">text (bcrypt)</text>
-    <text x="32" y="452" font-size="9" fill="#94a3b8">    role</text><text x="100" y="452" font-size="9" fill="#64748b">owner|admin|member</text>
-    <text x="32" y="466" font-size="9" fill="#94a3b8">    email_verified</text><text x="130" y="466" font-size="9" fill="#64748b">bool</text>
-    <text x="32" y="480" font-size="9" fill="#94a3b8">    created_at</text><text x="100" y="480" font-size="9" fill="#64748b">timestamptz</text>
-    <text x="32" y="510" font-size="8" fill="#475569">↑ FK from refresh_tokens, auth_tokens</text>
-  </g>
+<!-- ════ organizations (center-top, global) ════ -->
+<g id="t-orgs">
+  <rect x="480" y="106" width="320" height="226" rx="10" fill="#1a2535" stroke="#0891b2" stroke-width="2" filter="url(#sh)"/>
+  <rect x="480" y="106" width="320" height="38" rx="10" fill="#0c4a6e"/>
+  <rect x="480" y="132" width="320" height="12" fill="#0c4a6e"/>
+  <!-- pg icon -->
+  <use href="#pg-icon" x="492" y="112" width="18" height="18" fill="#38bdf8"/>
+  <text x="640" y="128" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">organizations</text>
+  <text x="640" y="143" text-anchor="middle" font-size="8.5" fill="#7dd3fc">GLOBAL · no RLS · anchor of all tenant data</text>
+  <!-- rows -->
+  <line x1="492" y1="152" x2="788" y2="152" stroke="#0c4a6e" stroke-width="0.5"/>
+  <text x="494" y="164" font-size="9" fill="#fbbf24" font-weight="600">PK</text><text x="510" y="164" font-size="9" fill="#e2e8f0"> id</text><text x="618" y="164" font-size="9" fill="#64748b">uuid  DEFAULT gen_random_uuid()</text>
+  <line x1="492" y1="170" x2="788" y2="170" stroke="#1e3a5f" stroke-width="0.4"/>
+  <text x="494" y="182" font-size="9" fill="#94a3b8">   name</text><text x="618" y="182" font-size="9" fill="#64748b">text  NOT NULL</text>
+  <line x1="492" y1="188" x2="788" y2="188" stroke="#1e3a5f" stroke-width="0.4"/>
+  <text x="494" y="200" font-size="9" fill="#94a3b8">   slug</text><text x="618" y="200" font-size="9" fill="#64748b">text  UNIQUE NOT NULL</text>
+  <line x1="492" y1="206" x2="788" y2="206" stroke="#1e3a5f" stroke-width="0.4"/>
+  <text x="494" y="218" font-size="9" fill="#94a3b8">   plan</text><text x="618" y="218" font-size="9" fill="#64748b">text  DEFAULT 'free'</text>
+  <line x1="492" y1="224" x2="788" y2="224" stroke="#1e3a5f" stroke-width="0.4"/>
+  <text x="494" y="236" font-size="9" fill="#94a3b8">   stripe_customer_id</text><text x="618" y="236" font-size="9" fill="#64748b">text  (nullable, UNIQUE partial)</text>
+  <line x1="492" y1="242" x2="788" y2="242" stroke="#1e3a5f" stroke-width="0.4"/>
+  <text x="494" y="254" font-size="9" fill="#94a3b8">   created_at</text><text x="618" y="254" font-size="9" fill="#64748b">timestamptz  DEFAULT now()</text>
+  <line x1="492" y1="260" x2="788" y2="260" stroke="#1e3a5f" stroke-width="0.4"/>
+  <text x="494" y="272" font-size="9" fill="#f87171">   deleted_at</text><text x="618" y="272" font-size="9" fill="#64748b">timestamptz  (soft-delete, checked by withTenant)</text>
+  <line x1="492" y1="278" x2="788" y2="278" stroke="#1e3a5f" stroke-width="0.4"/>
+  <text x="640" y="325" text-anchor="middle" font-size="8" fill="#475569">idx: organizations_slug_uniq</text>
+</g>
 
-  <!-- ══════════════════════ TABLE: projects ══════════════════════ -->
-  <g id="t-projects">
-    <rect x="20" y="558" width="240" height="172" rx="8" fill="#1a2535" stroke="#22c55e" stroke-width="1.5" filter="url(#sh3)"/>
-    <rect x="20" y="558" width="240" height="36" rx="8" fill="#14532d"/>
-    <rect x="20" y="578" width="240" height="16" fill="#14532d"/>
-    <rect x="30" y="567" width="10" height="10" rx="2" fill="#22c55e" opacity="0.8"/>
-    <text x="140" y="579" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">projects</text>
-    <text x="140" y="593" text-anchor="middle" font-size="8.5" fill="#86efac">TENANT-SCOPED · RLS</text>
-    <text x="32" y="614" font-size="9" fill="#fbbf24" font-weight="600">PK  id</text><text x="100" y="614" font-size="9" fill="#64748b">uuid</text>
-    <text x="32" y="628" font-size="9" fill="#60a5fa" font-weight="600">FK  tenant_id</text><text x="100" y="628" font-size="9" fill="#64748b">→ orgs.id</text>
-    <text x="32" y="642" font-size="9" fill="#94a3b8">    name</text><text x="100" y="642" font-size="9" fill="#64748b">text</text>
-    <text x="32" y="656" font-size="9" fill="#94a3b8">    description</text><text x="100" y="656" font-size="9" fill="#64748b">text  (nullable)</text>
-    <text x="32" y="670" font-size="9" fill="#94a3b8">    status</text><text x="100" y="670" font-size="9" fill="#64748b">active|archived</text>
-    <text x="32" y="684" font-size="9" fill="#94a3b8">    created_at, updated_at</text><text x="32" y="698" font-size="9" fill="#64748b">    idx(tenant_id, created_at)</text>
-    <text x="32" y="720" font-size="8" fill="#475569">quota: free=3, starter=25, pro=∞</text>
-  </g>
+<!-- ════ users ════ -->
+<g id="t-users">
+  <rect x="30" y="390" width="290" height="220" rx="10" fill="#1a2535" stroke="#16a34a" stroke-width="2" filter="url(#sh)"/>
+  <rect x="30" y="390" width="290" height="38" rx="10" fill="#14532d"/>
+  <rect x="30" y="416" width="290" height="12" fill="#14532d"/>
+  <rect x="38" y="397" width="12" height="12" rx="2" fill="#22c55e"/>
+  <use href="#pg-icon" x="55" y="396" width="16" height="16" fill="#4ade80"/>
+  <text x="175" y="412" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">users</text>
+  <text x="175" y="427" text-anchor="middle" font-size="8" fill="#86efac">TENANT-SCOPED · RLS</text>
+  <line x1="42" y1="436" x2="308" y2="436" stroke="#14532d" stroke-width="0.5"/>
+  <text x="44" y="448" font-size="9" fill="#fbbf24" font-weight="600">PK</text><text x="60" y="448" font-size="9" fill="#e2e8f0"> id</text><text x="120" y="448" font-size="9" fill="#64748b">uuid</text>
+  <line x1="42" y1="454" x2="308" y2="454" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="44" y="466" font-size="9" fill="#60a5fa" font-weight="600">FK</text><text x="60" y="466" font-size="9" fill="#e2e8f0"> tenant_id</text><text x="140" y="466" font-size="9" fill="#64748b">→ organizations.id</text>
+  <line x1="42" y1="472" x2="308" y2="472" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="44" y="484" font-size="9" fill="#94a3b8">   email</text><text x="120" y="484" font-size="9" fill="#64748b">text  UNIQUE(tenant_id, email)</text>
+  <line x1="42" y1="490" x2="308" y2="490" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="44" y="502" font-size="9" fill="#f87171">🔒 password_hash</text><text x="160" y="502" font-size="9" fill="#64748b">bcrypt</text>
+  <line x1="42" y1="508" x2="308" y2="508" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="44" y="520" font-size="9" fill="#94a3b8">   role</text><text x="120" y="520" font-size="9" fill="#64748b">owner · admin · member</text>
+  <line x1="42" y1="526" x2="308" y2="526" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="44" y="538" font-size="9" fill="#94a3b8">   email_verified</text><text x="160" y="538" font-size="9" fill="#64748b">boolean</text>
+  <line x1="42" y1="544" x2="308" y2="544" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="44" y="556" font-size="9" fill="#94a3b8">   created_at</text><text x="120" y="556" font-size="9" fill="#64748b">timestamptz</text>
+  <line x1="42" y1="562" x2="308" y2="562" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="175" y="600" text-anchor="middle" font-size="7.5" fill="#475569">↑ FK source: refresh_tokens, auth_tokens</text>
+</g>
 
-  <!-- ══════════════════════ TABLE: refresh_tokens ══════════════════════ -->
-  <g id="t-rt">
-    <rect x="280" y="340" width="240" height="200" rx="8" fill="#1a2535" stroke="#22c55e" stroke-width="1.5" filter="url(#sh3)"/>
-    <rect x="280" y="340" width="240" height="36" rx="8" fill="#14532d"/>
-    <rect x="280" y="360" width="240" height="16" fill="#14532d"/>
-    <rect x="290" y="349" width="10" height="10" rx="2" fill="#22c55e" opacity="0.8"/>
-    <text x="400" y="361" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">refresh_tokens</text>
-    <text x="400" y="375" text-anchor="middle" font-size="8.5" fill="#86efac">TENANT-SCOPED · RLS</text>
-    <text x="292" y="396" font-size="9" fill="#fbbf24" font-weight="600">PK  id</text><text x="340" y="396" font-size="9" fill="#64748b">uuid</text>
-    <text x="292" y="410" font-size="9" fill="#60a5fa" font-weight="600">FK  tenant_id</text><text x="370" y="410" font-size="9" fill="#64748b">→ orgs.id</text>
-    <text x="292" y="424" font-size="9" fill="#60a5fa" font-weight="600">FK  user_id</text><text x="370" y="424" font-size="9" fill="#64748b">→ users.id</text>
-    <text x="292" y="438" font-size="9" fill="#f87171">    hashed_token</text><text x="380" y="438" font-size="9" fill="#64748b">UNIQUE</text>
-    <text x="292" y="452" font-size="9" fill="#94a3b8">    family_id</text><text x="370" y="452" font-size="9" fill="#64748b">uuid (rotation group)</text>
-    <text x="292" y="466" font-size="9" fill="#94a3b8">    used_at</text><text x="370" y="466" font-size="9" fill="#64748b">timestamptz (reuse detect)</text>
-    <text x="292" y="480" font-size="9" fill="#94a3b8">    revoked_at</text><text x="370" y="480" font-size="9" fill="#64748b">timestamptz (family revoke)</text>
-    <text x="292" y="494" font-size="9" fill="#94a3b8">    expires_at</text><text x="370" y="494" font-size="9" fill="#64748b">timestamptz</text>
-    <text x="292" y="522" font-size="8" fill="#475569">family reuse: 10s overlap window</text>
-  </g>
+<!-- ════ projects ════ -->
+<g id="t-projects">
+  <rect x="30" y="640" width="290" height="208" rx="10" fill="#1a2535" stroke="#16a34a" stroke-width="2" filter="url(#sh)"/>
+  <rect x="30" y="640" width="290" height="38" rx="10" fill="#14532d"/>
+  <rect x="30" y="666" width="290" height="12" fill="#14532d"/>
+  <rect x="38" y="647" width="12" height="12" rx="2" fill="#22c55e"/>
+  <use href="#pg-icon" x="55" y="646" width="16" height="16" fill="#4ade80"/>
+  <text x="175" y="662" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">projects</text>
+  <text x="175" y="677" text-anchor="middle" font-size="8" fill="#86efac">TENANT-SCOPED · RLS · quota enforced</text>
+  <line x1="42" y1="686" x2="308" y2="686" stroke="#14532d" stroke-width="0.5"/>
+  <text x="44" y="698" font-size="9" fill="#fbbf24" font-weight="600">PK</text><text x="60" y="698" font-size="9" fill="#e2e8f0"> id</text><text x="120" y="698" font-size="9" fill="#64748b">uuid</text>
+  <line x1="42" y1="704" x2="308" y2="704" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="44" y="716" font-size="9" fill="#60a5fa" font-weight="600">FK</text><text x="60" y="716" font-size="9" fill="#e2e8f0"> tenant_id</text><text x="140" y="716" font-size="9" fill="#64748b">→ organizations.id</text>
+  <line x1="42" y1="722" x2="308" y2="722" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="44" y="734" font-size="9" fill="#94a3b8">   name</text><text x="120" y="734" font-size="9" fill="#64748b">text  NOT NULL</text>
+  <line x1="42" y1="740" x2="308" y2="740" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="44" y="752" font-size="9" fill="#94a3b8">   description</text><text x="120" y="752" font-size="9" fill="#64748b">text  nullable</text>
+  <line x1="42" y1="758" x2="308" y2="758" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="44" y="770" font-size="9" fill="#94a3b8">   status</text><text x="120" y="770" font-size="9" fill="#64748b">active · archived  DEFAULT 'active'</text>
+  <line x1="42" y1="776" x2="308" y2="776" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="44" y="788" font-size="9" fill="#94a3b8">   created_at · updated_at</text><text x="190" y="788" font-size="9" fill="#64748b">timestamptz</text>
+  <line x1="42" y1="794" x2="308" y2="794" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="175" y="830" text-anchor="middle" font-size="7.5" fill="#475569">idx(tenant_id, created_at) cursor pagination</text>
+  <text x="175" y="843" text-anchor="middle" font-size="7.5" fill="#fbbf24">quota: free=3  starter=25  pro=∞</text>
+</g>
 
-  <!-- ══════════════════════ TABLE: auth_tokens ══════════════════════ -->
-  <g id="t-at">
-    <rect x="280" y="560" width="240" height="172" rx="8" fill="#1a2535" stroke="#22c55e" stroke-width="1.5" filter="url(#sh3)"/>
-    <rect x="280" y="560" width="240" height="36" rx="8" fill="#14532d"/>
-    <rect x="280" y="580" width="240" height="16" fill="#14532d"/>
-    <rect x="290" y="569" width="10" height="10" rx="2" fill="#22c55e" opacity="0.8"/>
-    <text x="400" y="581" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">auth_tokens</text>
-    <text x="400" y="595" text-anchor="middle" font-size="8.5" fill="#86efac">TENANT-SCOPED · RLS</text>
-    <text x="292" y="616" font-size="9" fill="#fbbf24" font-weight="600">PK  id</text><text x="340" y="616" font-size="9" fill="#64748b">uuid</text>
-    <text x="292" y="630" font-size="9" fill="#60a5fa" font-weight="600">FK  tenant_id</text><text x="370" y="630" font-size="9" fill="#64748b">→ orgs.id</text>
-    <text x="292" y="644" font-size="9" fill="#60a5fa" font-weight="600">FK  user_id</text><text x="370" y="644" font-size="9" fill="#64748b">→ users.id</text>
-    <text x="292" y="658" font-size="9" fill="#94a3b8">    type</text><text x="370" y="658" font-size="9" fill="#64748b">password_reset | …</text>
-    <text x="292" y="672" font-size="9" fill="#f87171">    hashed_token</text><text x="380" y="672" font-size="9" fill="#64748b">UNIQUE</text>
-    <text x="292" y="686" font-size="9" fill="#94a3b8">    expires_at</text><text x="370" y="686" font-size="9" fill="#64748b">timestamptz (1h)</text>
-    <text x="292" y="700" font-size="9" fill="#94a3b8">    consumed_at</text><text x="370" y="700" font-size="9" fill="#64748b">timestamptz</text>
-    <text x="292" y="722" font-size="8" fill="#475569">token = SHA-256(32 random bytes)</text>
-  </g>
+<!-- ════ refresh_tokens ════ -->
+<g id="t-rt">
+  <rect x="345" y="390" width="290" height="234" rx="10" fill="#1a2535" stroke="#16a34a" stroke-width="2" filter="url(#sh)"/>
+  <rect x="345" y="390" width="290" height="38" rx="10" fill="#14532d"/>
+  <rect x="345" y="416" width="290" height="12" fill="#14532d"/>
+  <rect x="353" y="397" width="12" height="12" rx="2" fill="#22c55e"/>
+  <use href="#pg-icon" x="370" y="396" width="16" height="16" fill="#4ade80"/>
+  <text x="490" y="412" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">refresh_tokens</text>
+  <text x="490" y="427" text-anchor="middle" font-size="8" fill="#86efac">TENANT-SCOPED · RLS · family rotation</text>
+  <line x1="357" y1="436" x2="623" y2="436" stroke="#14532d" stroke-width="0.5"/>
+  <text x="359" y="448" font-size="9" fill="#fbbf24" font-weight="600">PK</text><text x="375" y="448" font-size="9" fill="#e2e8f0"> id</text><text x="420" y="448" font-size="9" fill="#64748b">uuid</text>
+  <line x1="357" y1="454" x2="623" y2="454" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="359" y="466" font-size="9" fill="#60a5fa" font-weight="600">FK</text><text x="375" y="466" font-size="9" fill="#e2e8f0"> tenant_id</text><text x="450" y="466" font-size="9" fill="#64748b">→ organizations.id</text>
+  <line x1="357" y1="472" x2="623" y2="472" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="359" y="484" font-size="9" fill="#60a5fa" font-weight="600">FK</text><text x="375" y="484" font-size="9" fill="#e2e8f0"> user_id</text><text x="450" y="484" font-size="9" fill="#64748b">→ users.id</text>
+  <line x1="357" y1="490" x2="623" y2="490" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="359" y="502" font-size="9" fill="#f87171">🔒 hashed_token</text><text x="460" y="502" font-size="9" fill="#64748b">text  UNIQUE (SHA-256)</text>
+  <line x1="357" y1="508" x2="623" y2="508" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="359" y="520" font-size="9" fill="#94a3b8">   family_id</text><text x="450" y="520" font-size="9" fill="#64748b">uuid  (rotation group)</text>
+  <line x1="357" y1="526" x2="623" y2="526" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="359" y="538" font-size="9" fill="#94a3b8">   used_at</text><text x="450" y="538" font-size="9" fill="#64748b">timestamptz  (reuse detection)</text>
+  <line x1="357" y1="544" x2="623" y2="544" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="359" y="556" font-size="9" fill="#94a3b8">   revoked_at</text><text x="450" y="556" font-size="9" fill="#64748b">timestamptz  (family revoke)</text>
+  <line x1="357" y1="562" x2="623" y2="562" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="359" y="574" font-size="9" fill="#94a3b8">   expires_at · created_at</text><text x="480" y="574" font-size="9" fill="#64748b">timestamptz</text>
+  <line x1="357" y1="580" x2="623" y2="580" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="490" y="614" text-anchor="middle" font-size="7.5" fill="#475569">idx(tenant_id, family_id)  10s reuse overlap window</text>
+</g>
 
-  <!-- ══════════════════════ TABLE: invitations ══════════════════════ -->
-  <g id="t-inv">
-    <rect x="540" y="340" width="240" height="172" rx="8" fill="#1a2535" stroke="#22c55e" stroke-width="1.5" filter="url(#sh3)"/>
-    <rect x="540" y="340" width="240" height="36" rx="8" fill="#14532d"/>
-    <rect x="540" y="360" width="240" height="16" fill="#14532d"/>
-    <rect x="550" y="349" width="10" height="10" rx="2" fill="#22c55e" opacity="0.8"/>
-    <text x="660" y="361" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">invitations</text>
-    <text x="660" y="375" text-anchor="middle" font-size="8.5" fill="#86efac">TENANT-SCOPED · RLS</text>
-    <text x="552" y="396" font-size="9" fill="#fbbf24" font-weight="600">PK  id</text><text x="600" y="396" font-size="9" fill="#64748b">uuid</text>
-    <text x="552" y="410" font-size="9" fill="#60a5fa" font-weight="600">FK  tenant_id</text><text x="630" y="410" font-size="9" fill="#64748b">→ orgs.id</text>
-    <text x="552" y="424" font-size="9" fill="#94a3b8">    email</text><text x="600" y="424" font-size="9" fill="#64748b">text</text>
-    <text x="552" y="438" font-size="9" fill="#94a3b8">    role</text><text x="600" y="438" font-size="9" fill="#64748b">owner|admin|member</text>
-    <text x="552" y="452" font-size="9" fill="#f87171">    hashed_token</text><text x="640" y="452" font-size="9" fill="#64748b">UNIQUE</text>
-    <text x="552" y="466" font-size="9" fill="#94a3b8">    expires_at</text><text x="630" y="466" font-size="9" fill="#64748b">timestamptz (7d)</text>
-    <text x="552" y="480" font-size="9" fill="#94a3b8">    consumed_at</text><text x="630" y="480" font-size="9" fill="#64748b">timestamptz</text>
-    <text x="552" y="502" font-size="8" fill="#475569">created by admin, accepted → new user</text>
-  </g>
+<!-- ════ auth_tokens ════ -->
+<g id="t-at">
+  <rect x="345" y="640" width="290" height="222" rx="10" fill="#1a2535" stroke="#16a34a" stroke-width="2" filter="url(#sh)"/>
+  <rect x="345" y="640" width="290" height="38" rx="10" fill="#14532d"/>
+  <rect x="345" y="666" width="290" height="12" fill="#14532d"/>
+  <rect x="353" y="647" width="12" height="12" rx="2" fill="#22c55e"/>
+  <use href="#pg-icon" x="370" y="646" width="16" height="16" fill="#4ade80"/>
+  <text x="490" y="662" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">auth_tokens</text>
+  <text x="490" y="677" text-anchor="middle" font-size="8" fill="#86efac">TENANT-SCOPED · RLS · password reset</text>
+  <line x1="357" y1="686" x2="623" y2="686" stroke="#14532d" stroke-width="0.5"/>
+  <text x="359" y="698" font-size="9" fill="#fbbf24" font-weight="600">PK</text><text x="375" y="698" font-size="9" fill="#e2e8f0"> id</text><text x="420" y="698" font-size="9" fill="#64748b">uuid</text>
+  <line x1="357" y1="704" x2="623" y2="704" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="359" y="716" font-size="9" fill="#60a5fa" font-weight="600">FK</text><text x="375" y="716" font-size="9" fill="#e2e8f0"> tenant_id</text><text x="450" y="716" font-size="9" fill="#64748b">→ organizations.id</text>
+  <line x1="357" y1="722" x2="623" y2="722" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="359" y="734" font-size="9" fill="#60a5fa" font-weight="600">FK</text><text x="375" y="734" font-size="9" fill="#e2e8f0"> user_id</text><text x="450" y="734" font-size="9" fill="#64748b">→ users.id</text>
+  <line x1="357" y1="740" x2="623" y2="740" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="359" y="752" font-size="9" fill="#94a3b8">   type</text><text x="420" y="752" font-size="9" fill="#64748b">password_reset | …</text>
+  <line x1="357" y1="758" x2="623" y2="758" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="359" y="770" font-size="9" fill="#f87171">🔒 hashed_token</text><text x="460" y="770" font-size="9" fill="#64748b">text  UNIQUE (SHA-256)</text>
+  <line x1="357" y1="776" x2="623" y2="776" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="359" y="788" font-size="9" fill="#94a3b8">   expires_at</text><text x="450" y="788" font-size="9" fill="#64748b">timestamptz  (1h TTL)</text>
+  <line x1="357" y1="794" x2="623" y2="794" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="359" y="806" font-size="9" fill="#94a3b8">   consumed_at · created_at</text><text x="490" y="806" font-size="9" fill="#64748b">timestamptz</text>
+  <line x1="357" y1="812" x2="623" y2="812" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="490" y="850" text-anchor="middle" font-size="7.5" fill="#475569">token = SHA-256(randomBytes(32))</text>
+</g>
 
-  <!-- ══════════════════════ TABLE: api_keys ══════════════════════ -->
-  <g id="t-ak">
-    <rect x="540" y="540" width="240" height="172" rx="8" fill="#1a2535" stroke="#22c55e" stroke-width="1.5" filter="url(#sh3)"/>
-    <rect x="540" y="540" width="240" height="36" rx="8" fill="#14532d"/>
-    <rect x="540" y="560" width="240" height="16" fill="#14532d"/>
-    <rect x="550" y="549" width="10" height="10" rx="2" fill="#22c55e" opacity="0.8"/>
-    <text x="660" y="561" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">api_keys</text>
-    <text x="660" y="575" text-anchor="middle" font-size="8.5" fill="#86efac">TENANT-SCOPED · RLS</text>
-    <text x="552" y="596" font-size="9" fill="#fbbf24" font-weight="600">PK  id</text><text x="600" y="596" font-size="9" fill="#64748b">uuid</text>
-    <text x="552" y="610" font-size="9" fill="#60a5fa" font-weight="600">FK  tenant_id</text><text x="630" y="610" font-size="9" fill="#64748b">→ orgs.id</text>
-    <text x="552" y="624" font-size="9" fill="#94a3b8">    name</text><text x="600" y="624" font-size="9" fill="#64748b">text</text>
-    <text x="552" y="638" font-size="9" fill="#f87171">    hashed_key</text><text x="630" y="638" font-size="9" fill="#64748b">UNIQUE (SHA-256)</text>
-    <text x="552" y="652" font-size="9" fill="#94a3b8">    last_used_at</text><text x="640" y="652" font-size="9" fill="#64748b">timestamptz</text>
-    <text x="552" y="666" font-size="9" fill="#94a3b8">    revoked_at</text><text x="630" y="666" font-size="9" fill="#64748b">timestamptz</text>
-    <text x="552" y="680" font-size="9" fill="#94a3b8">    created_at</text><text x="630" y="680" font-size="9" fill="#64748b">timestamptz</text>
-    <text x="552" y="702" font-size="8" fill="#475569">prefix: tf_  ·  plaintext returned once</text>
-  </g>
+<!-- ════ invitations ════ -->
+<g id="t-inv">
+  <rect x="660" y="390" width="290" height="220" rx="10" fill="#1a2535" stroke="#16a34a" stroke-width="2" filter="url(#sh)"/>
+  <rect x="660" y="390" width="290" height="38" rx="10" fill="#14532d"/>
+  <rect x="660" y="416" width="290" height="12" fill="#14532d"/>
+  <rect x="668" y="397" width="12" height="12" rx="2" fill="#22c55e"/>
+  <use href="#pg-icon" x="685" y="396" width="16" height="16" fill="#4ade80"/>
+  <text x="805" y="412" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">invitations</text>
+  <text x="805" y="427" text-anchor="middle" font-size="8" fill="#86efac">TENANT-SCOPED · RLS · 7d TTL</text>
+  <line x1="672" y1="436" x2="938" y2="436" stroke="#14532d" stroke-width="0.5"/>
+  <text x="674" y="448" font-size="9" fill="#fbbf24" font-weight="600">PK</text><text x="690" y="448" font-size="9" fill="#e2e8f0"> id</text><text x="740" y="448" font-size="9" fill="#64748b">uuid</text>
+  <line x1="672" y1="454" x2="938" y2="454" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="674" y="466" font-size="9" fill="#60a5fa" font-weight="600">FK</text><text x="690" y="466" font-size="9" fill="#e2e8f0"> tenant_id</text><text x="760" y="466" font-size="9" fill="#64748b">→ organizations.id</text>
+  <line x1="672" y1="472" x2="938" y2="472" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="674" y="484" font-size="9" fill="#94a3b8">   email · role</text><text x="760" y="484" font-size="9" fill="#64748b">text</text>
+  <line x1="672" y1="490" x2="938" y2="490" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="674" y="502" font-size="9" fill="#f87171">🔒 hashed_token</text><text x="775" y="502" font-size="9" fill="#64748b">text  UNIQUE</text>
+  <line x1="672" y1="508" x2="938" y2="508" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="674" y="520" font-size="9" fill="#94a3b8">   expires_at</text><text x="760" y="520" font-size="9" fill="#64748b">timestamptz  (7 days)</text>
+  <line x1="672" y1="526" x2="938" y2="526" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="674" y="538" font-size="9" fill="#94a3b8">   consumed_at · created_at</text><text x="810" y="538" font-size="9" fill="#64748b">timestamptz</text>
+  <line x1="672" y1="544" x2="938" y2="544" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="805" y="596" text-anchor="middle" font-size="7.5" fill="#475569">accept → INSERT users, SET consumed_at</text>
+</g>
 
-  <!-- ══════════════════════ TABLE: subscriptions ══════════════════════ -->
-  <g id="t-sub">
-    <rect x="800" y="340" width="260" height="186" rx="8" fill="#1a2535" stroke="#22c55e" stroke-width="1.5" filter="url(#sh3)"/>
-    <rect x="800" y="340" width="260" height="36" rx="8" fill="#14532d"/>
-    <rect x="800" y="360" width="260" height="16" fill="#14532d"/>
-    <rect x="810" y="349" width="10" height="10" rx="2" fill="#22c55e" opacity="0.8"/>
-    <text x="930" y="361" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">subscriptions</text>
-    <text x="930" y="375" text-anchor="middle" font-size="8.5" fill="#86efac">TENANT-SCOPED · RLS</text>
-    <text x="812" y="396" font-size="9" fill="#fbbf24" font-weight="600">PK  id</text><text x="856" y="396" font-size="9" fill="#64748b">uuid</text>
-    <text x="812" y="410" font-size="9" fill="#60a5fa" font-weight="600">FK  tenant_id</text><text x="886" y="410" font-size="9" fill="#64748b">→ orgs.id</text>
-    <text x="812" y="424" font-size="9" fill="#94a3b8">    stripe_sub_id</text><text x="886" y="424" font-size="9" fill="#64748b">text  UNIQUE</text>
-    <text x="812" y="438" font-size="9" fill="#94a3b8">    status</text><text x="886" y="438" font-size="9" fill="#64748b">active|trialing|past_due|canceled</text>
-    <text x="812" y="452" font-size="9" fill="#94a3b8">    plan</text><text x="886" y="452" font-size="9" fill="#64748b">free|starter|pro</text>
-    <text x="812" y="466" font-size="9" fill="#94a3b8">    current_period_end</text><text x="886" y="466" font-size="9" fill="#64748b">timestamptz</text>
-    <text x="812" y="480" font-size="9" fill="#94a3b8">    updated_at</text><text x="886" y="480" font-size="9" fill="#64748b">timestamptz</text>
-    <text x="812" y="510" font-size="8" fill="#475569">upserted on Stripe webhook · idx(tenant_id, status)</text>
-  </g>
+<!-- ════ api_keys ════ -->
+<g id="t-ak">
+  <rect x="660" y="634" width="290" height="208" rx="10" fill="#1a2535" stroke="#16a34a" stroke-width="2" filter="url(#sh)"/>
+  <rect x="660" y="634" width="290" height="38" rx="10" fill="#14532d"/>
+  <rect x="660" y="660" width="290" height="12" fill="#14532d"/>
+  <rect x="668" y="641" width="12" height="12" rx="2" fill="#22c55e"/>
+  <use href="#pg-icon" x="685" y="640" width="16" height="16" fill="#4ade80"/>
+  <text x="805" y="656" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">api_keys</text>
+  <text x="805" y="671" text-anchor="middle" font-size="8" fill="#86efac">TENANT-SCOPED · RLS · prefix tf_</text>
+  <line x1="672" y1="680" x2="938" y2="680" stroke="#14532d" stroke-width="0.5"/>
+  <text x="674" y="692" font-size="9" fill="#fbbf24" font-weight="600">PK</text><text x="690" y="692" font-size="9" fill="#e2e8f0"> id</text><text x="740" y="692" font-size="9" fill="#64748b">uuid</text>
+  <line x1="672" y1="698" x2="938" y2="698" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="674" y="710" font-size="9" fill="#60a5fa" font-weight="600">FK</text><text x="690" y="710" font-size="9" fill="#e2e8f0"> tenant_id</text><text x="760" y="710" font-size="9" fill="#64748b">→ organizations.id</text>
+  <line x1="672" y1="716" x2="938" y2="716" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="674" y="728" font-size="9" fill="#94a3b8">   name</text><text x="740" y="728" font-size="9" fill="#64748b">text</text>
+  <line x1="672" y1="734" x2="938" y2="734" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="674" y="746" font-size="9" fill="#f87171">🔒 hashed_key</text><text x="770" y="746" font-size="9" fill="#64748b">text  UNIQUE (SHA-256)</text>
+  <line x1="672" y1="752" x2="938" y2="752" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="674" y="764" font-size="9" fill="#94a3b8">   last_used_at</text><text x="760" y="764" font-size="9" fill="#64748b">timestamptz  (async bump)</text>
+  <line x1="672" y1="770" x2="938" y2="770" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="674" y="782" font-size="9" fill="#94a3b8">   revoked_at · created_at</text><text x="800" y="782" font-size="9" fill="#64748b">timestamptz</text>
+  <line x1="672" y1="788" x2="938" y2="788" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="805" y="832" text-anchor="middle" font-size="7.5" fill="#475569">plaintext returned once; hash only stored</text>
+</g>
 
-  <!-- ══════════════════════ TABLE: audit_log ══════════════════════ -->
-  <g id="t-al">
-    <rect x="800" y="546" width="260" height="172" rx="8" fill="#1a2535" stroke="#22c55e" stroke-width="1.5" filter="url(#sh3)"/>
-    <rect x="800" y="546" width="260" height="36" rx="8" fill="#14532d"/>
-    <rect x="800" y="566" width="260" height="16" fill="#14532d"/>
-    <rect x="810" y="555" width="10" height="10" rx="2" fill="#22c55e" opacity="0.8"/>
-    <text x="930" y="567" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">audit_log</text>
-    <text x="930" y="581" text-anchor="middle" font-size="8.5" fill="#86efac">TENANT-SCOPED · RLS</text>
-    <text x="812" y="602" font-size="9" fill="#fbbf24" font-weight="600">PK  id</text><text x="856" y="602" font-size="9" fill="#64748b">uuid</text>
-    <text x="812" y="616" font-size="9" fill="#60a5fa" font-weight="600">FK  tenant_id</text><text x="886" y="616" font-size="9" fill="#64748b">→ orgs.id</text>
-    <text x="812" y="630" font-size="9" fill="#94a3b8">    actor_user_id</text><text x="886" y="630" font-size="9" fill="#64748b">uuid (nullable)</text>
-    <text x="812" y="644" font-size="9" fill="#94a3b8">    action</text><text x="886" y="644" font-size="9" fill="#64748b">text  (e.g. billing.synced)</text>
-    <text x="812" y="658" font-size="9" fill="#94a3b8">    target</text><text x="886" y="658" font-size="9" fill="#64748b">text  (nullable)</text>
-    <text x="812" y="672" font-size="9" fill="#94a3b8">    metadata</text><text x="886" y="672" font-size="9" fill="#64748b">jsonb</text>
-    <text x="812" y="686" font-size="9" fill="#94a3b8">    created_at</text><text x="886" y="686" font-size="9" fill="#64748b">timestamptz</text>
-    <text x="812" y="708" font-size="8" fill="#475569">idx(tenant_id, created_at)  · append-only</text>
-  </g>
+<!-- ════ subscriptions ════ -->
+<g id="t-sub">
+  <rect x="975" y="390" width="290" height="222" rx="10" fill="#1a2535" stroke="#16a34a" stroke-width="2" filter="url(#sh)"/>
+  <rect x="975" y="390" width="290" height="38" rx="10" fill="#14532d"/>
+  <rect x="975" y="416" width="290" height="12" fill="#14532d"/>
+  <rect x="983" y="397" width="12" height="12" rx="2" fill="#22c55e"/>
+  <use href="#pg-icon" x="1000" y="396" width="16" height="16" fill="#4ade80"/>
+  <text x="1120" y="412" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">subscriptions</text>
+  <text x="1120" y="427" text-anchor="middle" font-size="8" fill="#86efac">TENANT-SCOPED · RLS · webhook-synced</text>
+  <line x1="987" y1="436" x2="1253" y2="436" stroke="#14532d" stroke-width="0.5"/>
+  <text x="989" y="448" font-size="9" fill="#fbbf24" font-weight="600">PK</text><text x="1005" y="448" font-size="9" fill="#e2e8f0"> id</text><text x="1055" y="448" font-size="9" fill="#64748b">uuid</text>
+  <line x1="987" y1="454" x2="1253" y2="454" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="989" y="466" font-size="9" fill="#60a5fa" font-weight="600">FK</text><text x="1005" y="466" font-size="9" fill="#e2e8f0"> tenant_id</text><text x="1075" y="466" font-size="9" fill="#64748b">→ organizations.id</text>
+  <line x1="987" y1="472" x2="1253" y2="472" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="989" y="484" font-size="9" fill="#94a3b8">   stripe_subscription_id</text><text x="1135" y="484" font-size="9" fill="#64748b">text  UNIQUE</text>
+  <line x1="987" y1="490" x2="1253" y2="490" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="989" y="502" font-size="9" fill="#94a3b8">   status</text><text x="1055" y="502" font-size="9" fill="#64748b">active · trialing · past_due · canceled</text>
+  <line x1="987" y1="508" x2="1253" y2="508" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="989" y="520" font-size="9" fill="#94a3b8">   plan</text><text x="1055" y="520" font-size="9" fill="#64748b">free · starter · pro</text>
+  <line x1="987" y1="526" x2="1253" y2="526" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="989" y="538" font-size="9" fill="#94a3b8">   current_period_end</text><text x="1135" y="538" font-size="9" fill="#64748b">timestamptz</text>
+  <line x1="987" y1="544" x2="1253" y2="544" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="989" y="556" font-size="9" fill="#94a3b8">   updated_at</text><text x="1055" y="556" font-size="9" fill="#64748b">timestamptz</text>
+  <line x1="987" y1="562" x2="1253" y2="562" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="1120" y="596" text-anchor="middle" font-size="7.5" fill="#475569">UPSERT ON CONFLICT stripe_subscription_id</text>
+</g>
 
-  <!-- ══════════════════════ TABLE: processed_webhooks (global) ══════════════════════ -->
-  <g id="t-pw">
-    <rect x="800" y="86" width="260" height="106" rx="8" fill="#1a2535" stroke="#475569" stroke-width="1.5" filter="url(#sh3)"/>
-    <rect x="800" y="86" width="260" height="36" rx="8" fill="#1e293b"/>
-    <rect x="800" y="106" width="260" height="16" fill="#1e293b"/>
-    <text x="930" y="107" text-anchor="middle" font-size="12" font-weight="700" fill="#cbd5e1">processed_webhooks</text>
-    <text x="930" y="121" text-anchor="middle" font-size="8.5" fill="#64748b">GLOBAL TABLE · no RLS · dedup ledger</text>
-    <text x="812" y="142" font-size="9" fill="#fbbf24" font-weight="600">PK  event_id</text><text x="880" y="142" font-size="9" fill="#64748b">text  UNIQUE</text>
-    <text x="812" y="156" font-size="9" fill="#94a3b8">    processed_at</text><text x="900" y="156" font-size="9" fill="#64748b">timestamptz</text>
-    <text x="812" y="180" font-size="8" fill="#475569">INSERT before work · inside tx · 23505 = duplicate</text>
-  </g>
+<!-- ════ audit_log ════ -->
+<g id="t-al">
+  <rect x="975" y="634" width="290" height="208" rx="10" fill="#1a2535" stroke="#16a34a" stroke-width="2" filter="url(#sh)"/>
+  <rect x="975" y="634" width="290" height="38" rx="10" fill="#14532d"/>
+  <rect x="975" y="660" width="290" height="12" fill="#14532d"/>
+  <rect x="983" y="641" width="12" height="12" rx="2" fill="#22c55e"/>
+  <use href="#pg-icon" x="1000" y="640" width="16" height="16" fill="#4ade80"/>
+  <text x="1120" y="656" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">audit_log</text>
+  <text x="1120" y="671" text-anchor="middle" font-size="8" fill="#86efac">TENANT-SCOPED · RLS · append-only</text>
+  <line x1="987" y1="680" x2="1253" y2="680" stroke="#14532d" stroke-width="0.5"/>
+  <text x="989" y="692" font-size="9" fill="#fbbf24" font-weight="600">PK</text><text x="1005" y="692" font-size="9" fill="#e2e8f0"> id</text><text x="1055" y="692" font-size="9" fill="#64748b">uuid</text>
+  <line x1="987" y1="698" x2="1253" y2="698" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="989" y="710" font-size="9" fill="#60a5fa" font-weight="600">FK</text><text x="1005" y="710" font-size="9" fill="#e2e8f0"> tenant_id</text><text x="1075" y="710" font-size="9" fill="#64748b">→ organizations.id</text>
+  <line x1="987" y1="716" x2="1253" y2="716" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="989" y="728" font-size="9" fill="#94a3b8">   actor_user_id</text><text x="1075" y="728" font-size="9" fill="#64748b">uuid  nullable</text>
+  <line x1="987" y1="734" x2="1253" y2="734" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="989" y="746" font-size="9" fill="#94a3b8">   action</text><text x="1055" y="746" font-size="9" fill="#64748b">text  (e.g. billing.synced)</text>
+  <line x1="987" y1="752" x2="1253" y2="752" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="989" y="764" font-size="9" fill="#94a3b8">   target · metadata</text><text x="1085" y="764" font-size="9" fill="#64748b">text · jsonb</text>
+  <line x1="987" y1="770" x2="1253" y2="770" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="989" y="782" font-size="9" fill="#94a3b8">   created_at</text><text x="1075" y="782" font-size="9" fill="#64748b">timestamptz</text>
+  <line x1="987" y1="788" x2="1253" y2="788" stroke="#165a2b" stroke-width="0.4"/>
+  <text x="1120" y="832" text-anchor="middle" font-size="7.5" fill="#475569">idx(tenant_id, created_at)</text>
+</g>
 
-  <!-- ══════════════════════ FK LINES ══════════════════════ -->
-  <!-- orgs → users -->
-  <line x1="460" y1="195" x2="260" y2="430" stroke="#0ea5e9" stroke-width="1.5" marker-end="url(#fkBlue)" opacity="0.7"/>
-  <!-- orgs → projects -->
-  <line x1="460" y1="240" x2="260" y2="640" stroke="#0ea5e9" stroke-width="1.5" marker-end="url(#fkBlue)" opacity="0.7"/>
-  <!-- orgs → refresh_tokens -->
-  <line x1="520" y1="195" x2="520" y2="340" stroke="#0ea5e9" stroke-width="1.5" marker-end="url(#fkBlue)" opacity="0.7"/>
-  <!-- orgs → auth_tokens -->
-  <line x1="540" y1="260" x2="520" y2="560" stroke="#0ea5e9" stroke-width="1.5" marker-end="url(#fkBlue)" opacity="0.7"/>
-  <!-- orgs → invitations -->
-  <line x1="660" y1="288" x2="660" y2="340" stroke="#0ea5e9" stroke-width="1.5" marker-end="url(#fkBlue)" opacity="0.7"/>
-  <!-- orgs → api_keys -->
-  <line x1="680" y1="288" x2="680" y2="540" stroke="#0ea5e9" stroke-width="1.5" marker-end="url(#fkBlue)" opacity="0.7"/>
-  <!-- orgs → subscriptions -->
-  <line x1="740" y1="195" x2="800" y2="400" stroke="#0ea5e9" stroke-width="1.5" marker-end="url(#fkBlue)" opacity="0.7"/>
-  <!-- orgs → audit_log -->
-  <line x1="740" y1="240" x2="800" y2="610" stroke="#0ea5e9" stroke-width="1.5" marker-end="url(#fkBlue)" opacity="0.7"/>
-  <!-- users → refresh_tokens -->
-  <line x1="260" y1="450" x2="280" y2="445" stroke="#22c55e" stroke-width="1" stroke-dasharray="4,2" marker-end="url(#fk)" opacity="0.6"/>
-  <!-- users → auth_tokens -->
-  <line x1="140" y1="526" x2="320" y2="600" stroke="#22c55e" stroke-width="1" stroke-dasharray="4,2" marker-end="url(#fk)" opacity="0.6"/>
+<!-- ════ processed_webhooks (global) ════ -->
+<g id="t-pw">
+  <rect x="480" y="354" width="320" height="26" rx="0" fill="none"/>
+  <!-- sits just above organizations, small -->
+  <rect x="720" y="106" width="260" height="116" rx="10" fill="#1a2535" stroke="#475569" stroke-width="1.5" filter="url(#sh)"/>
+  <rect x="720" y="106" width="260" height="38" rx="10" fill="#1e293b"/>
+  <rect x="720" y="132" width="260" height="12" fill="#1e293b"/>
+  <rect x="728" y="113" width="12" height="12" rx="2" fill="#475569"/>
+  <use href="#pg-icon" x="745" y="112" width="16" height="16" fill="#94a3b8"/>
+  <text x="850" y="128" text-anchor="middle" font-size="12" font-weight="700" fill="#cbd5e1">processed_webhooks</text>
+  <text x="850" y="143" text-anchor="middle" font-size="8" fill="#64748b">GLOBAL · no RLS · dedup ledger</text>
+  <line x1="732" y1="152" x2="968" y2="152" stroke="#1e293b" stroke-width="0.5"/>
+  <text x="734" y="164" font-size="9" fill="#fbbf24" font-weight="600">PK</text><text x="750" y="164" font-size="9" fill="#e2e8f0"> event_id</text><text x="820" y="164" font-size="9" fill="#64748b">text  UNIQUE  (Stripe event id)</text>
+  <line x1="732" y1="170" x2="968" y2="170" stroke="#334155" stroke-width="0.4"/>
+  <text x="734" y="182" font-size="9" fill="#94a3b8">   processed_at</text><text x="820" y="182" font-size="9" fill="#64748b">timestamptz</text>
+  <line x1="732" y1="188" x2="968" y2="188" stroke="#334155" stroke-width="0.4"/>
+  <text x="850" y="212" text-anchor="middle" font-size="7.5" fill="#475569">INSERT before work · UNIQUE 23505 = duplicate</text>
+</g>
 
-  <!-- RLS note box -->
-  <rect x="540" y="742" width="620" height="58" rx="6" fill="#0d1f1a" stroke="#166534" stroke-width="1"/>
-  <text x="556" y="760" font-size="9" font-weight="600" fill="#4ade80">RLS Policy (all tenant-scoped tables):</text>
-  <text x="556" y="776" font-size="8.5" fill="#86efac">  USING (tenant_id = NULLIF(current_setting('app.current_tenant_id', true), '')::uuid)</text>
-  <text x="556" y="790" font-size="8.5" fill="#475569">  Unset GUC → NULL → zero rows returned (fail-closed, not an error).  App role: NOSUPERUSER NOBYPASSRLS.</text>
+<!-- ════ FK CONNECTOR LINES ════ -->
+<!-- orgs → users -->
+<path d="M 480 195 Q 320 195 320 440" fill="none" stroke="#0ea5e9" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.7"/>
+<!-- orgs → projects -->
+<path d="M 480 210 Q 300 210 300 690" fill="none" stroke="#0ea5e9" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.7"/>
+<!-- orgs → refresh_tokens -->
+<path d="M 560 332 L 490 440" fill="none" stroke="#0ea5e9" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.7"/>
+<!-- orgs → auth_tokens -->
+<path d="M 560 332 L 490 690" fill="none" stroke="#0ea5e9" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.7"/>
+<!-- orgs → invitations -->
+<path d="M 720 195 L 805 440" fill="none" stroke="#0ea5e9" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.7"/>
+<!-- orgs → api_keys -->
+<path d="M 720 210 L 805 684" fill="none" stroke="#0ea5e9" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.7"/>
+<!-- orgs → subscriptions -->
+<path d="M 800 220 Q 1120 350 1120 440" fill="none" stroke="#0ea5e9" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.7"/>
+<!-- orgs → audit_log -->
+<path d="M 800 240 Q 1130 370 1130 684" fill="none" stroke="#0ea5e9" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.7"/>
+<!-- users → refresh_tokens (user_id FK) -->
+<line x1="320" y1="500" x2="345" y2="500" stroke="#22c55e" stroke-width="1" stroke-dasharray="3,2" opacity="0.6"/>
+<!-- users → auth_tokens (user_id FK) -->
+<line x1="320" y1="750" x2="345" y2="750" stroke="#22c55e" stroke-width="1" stroke-dasharray="3,2" opacity="0.6"/>
+
+<!-- RLS policy box at bottom -->
+<rect x="14" y="862" width="1254" height="26" rx="6" fill="#0d1f18" stroke="#166534" stroke-width="1"/>
+<text x="20" y="879" font-size="8.5" font-weight="600" fill="#4ade80">RLS POLICY (all tenant tables):  </text>
+<text x="160" y="879" font-size="8.5" fill="#86efac">USING (tenant_id = NULLIF(current_setting('app.current_tenant_id', true), '')::uuid)  WITH CHECK (same)</text>
+<text x="750" y="879" font-size="8.5" fill="#64748b">  |  Unset GUC → NULL → 0 rows (fail-closed)  |  App role: NOSUPERUSER NOBYPASSRLS</text>
 </svg>
