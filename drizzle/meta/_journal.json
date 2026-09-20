@@ -1,0 +1,41 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1788020603012,
+      "tag": "0000_volatile_gamma_corps",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1788023830928,
+      "tag": "0001_worried_zaran",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1788027861341,
+      "tag": "0002_amusing_blizzard",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1788047993751,
+      "tag": "0003_exotic_jack_murdock",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1788084610425,
+      "tag": "0004_charming_supreme_intelligence",
+      "breakpoints": true
+    }
+  ]
+}
